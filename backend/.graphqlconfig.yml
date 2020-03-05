@@ -1,0 +1,5 @@
+projects:
+  prisma:
+    schemaPath: datamodel.graphql
+    extensions:
+      prisma: prisma.yml
