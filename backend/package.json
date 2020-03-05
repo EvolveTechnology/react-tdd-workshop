@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "author": "Joseph Chamochumbi",
-  "license": "MIT"
+  "license": "MIT",
   "scripts":{
   	"deploy": "prisma deploy --env-file variables.env"
   }
