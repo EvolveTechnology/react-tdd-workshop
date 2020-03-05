@@ -25,3 +25,10 @@
 11. Create `.graphqlconfig.yml` 
 	- Make sure the project name matches the deploy hook.
 12. Deploy `prisma deploy --env-file variables.env`
+
+## Prisma Bindings and Graphql Yoga
+
+- Create db handler with Prisma Binding
+- Create server with graphql-yoga
+- Create resolver placeholders
+- Spin up the server from `src/index.js`
