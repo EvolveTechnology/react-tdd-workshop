@@ -1,5 +1,5 @@
 # source: https://eu1.prisma.sh/joseph-e465e0/awesome-demo-service/dev
-# timestamp: Thu Mar 05 2020 07:33:02 GMT+0100 (Central European Standard Time)
+# timestamp: Thu Mar 05 2020 20:48:07 GMT+0100 (Central European Standard Time)
 
 type AggregateUser {
   count: Int!
