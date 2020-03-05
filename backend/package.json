@@ -4,7 +4,21 @@
   "main": "index.js",
   "author": "Joseph Chamochumbi",
   "license": "MIT",
-  "scripts":{
-  	"deploy": "prisma deploy --env-file variables.env"
+  "scripts": {
+    "playground": "graphql playground --dotenv variables.env",
+    "start": "nodemon -e js,graphql -x node src/index.js",
+    "dev": "concurrently \"yarn start\" \"yarn playground\"",
+    "deploy": "prisma deploy --env-file variables.env"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "graphql": "^14.6.0",
+    "graphql-yoga": "^1.18.3",
+    "prisma": "^1.34.10",
+    "prisma-binding": "^2.3.16"
+  },
+  "devDependencies": {
+    "concurrently": "^5.1.0",
+    "nodemon": "^2.0.2"
   }
 }
