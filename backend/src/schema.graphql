@@ -1,12 +1,14 @@
+# import * from './generated/prisma.graphql'
+
 type User {
-  id: ID!,
+  id: ID!
   name: String!
 }
 
 type Mutation {
-  solve: String
+  createContribution(qty: Int!, message: String): Contribution!
 }
 
 type Query {
-  solve: String
+  getAllContributions: [Contribution!]!
 }
