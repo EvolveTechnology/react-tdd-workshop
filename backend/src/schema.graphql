@@ -7,6 +7,7 @@ type User {
 
 type Mutation {
   createContribution(qty: Int!, message: String): Contribution!
+  contributeMore(id: ID!, qty:Int!): Contribution!
   updateSeen(id: ID!):Contribution!
 }
 
