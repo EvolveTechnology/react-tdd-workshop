@@ -13,5 +13,6 @@ type Contribution {
   message: String
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
+  seen: Boolean! @default(value: false)
   # user: User!
 }

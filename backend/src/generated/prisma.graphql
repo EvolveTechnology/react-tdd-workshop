@@ -1,5 +1,5 @@
 # source: https://eu1.prisma.sh/joseph-e465e0/awesome-demo-service/dev
-# timestamp: Sat Mar 07 2020 06:54:52 GMT+0100 (Central European Standard Time)
+# timestamp: Sat Mar 07 2020 07:43:56 GMT+0100 (Central European Standard Time)
 
 type AggregateContribution {
   count: Int!
@@ -20,6 +20,7 @@ type Contribution implements Node {
   message: String
   createdAt: DateTime!
   updatedAt: DateTime!
+  seen: Boolean!
 }
 
 """A connection to a list of items."""
@@ -36,6 +37,7 @@ input ContributionCreateInput {
   id: ID
   qty: Int!
   message: String
+  seen: Boolean
 }
 
 """An edge in a connection."""
@@ -58,6 +60,8 @@ enum ContributionOrderByInput {
   createdAt_DESC
   updatedAt_ASC
   updatedAt_DESC
+  seen_ASC
+  seen_DESC
 }
 
 type ContributionPreviousValues {
@@ -66,6 +70,7 @@ type ContributionPreviousValues {
   message: String
   createdAt: DateTime!
   updatedAt: DateTime!
+  seen: Boolean!
 }
 
 type ContributionSubscriptionPayload {
@@ -108,11 +113,13 @@ input ContributionSubscriptionWhereInput {
 input ContributionUpdateInput {
   qty: Int
   message: String
+  seen: Boolean
 }
 
 input ContributionUpdateManyMutationInput {
   qty: Int
   message: String
+  seen: Boolean
 }
 
 input ContributionWhereInput {
@@ -270,6 +277,10 @@ input ContributionWhereInput {
 
   """All values greater than or equal the given value."""
   updatedAt_gte: DateTime
+  seen: Boolean
+
+  """All values that are not equal to given value."""
+  seen_not: Boolean
 }
 
 input ContributionWhereUniqueInput {
