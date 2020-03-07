@@ -1,5 +1,17 @@
+"""
+Used against the Prisma SQL dB
+"""
 type User {
   id: ID! @id
   name: String!
   email: String!
+}
+
+type Contribution {
+  id: ID! @id
+  qty: Int!
+  message: String
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+  # user: User!
 }

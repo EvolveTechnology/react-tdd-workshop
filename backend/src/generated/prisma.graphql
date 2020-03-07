@@ -1,5 +1,9 @@
 # source: https://eu1.prisma.sh/joseph-e465e0/awesome-demo-service/dev
-# timestamp: Thu Mar 05 2020 20:48:07 GMT+0100 (Central European Standard Time)
+# timestamp: Sat Mar 07 2020 06:54:52 GMT+0100 (Central European Standard Time)
+
+type AggregateContribution {
+  count: Int!
+}
 
 type AggregateUser {
   count: Int!
@@ -10,6 +14,270 @@ type BatchPayload {
   count: Long!
 }
 
+type Contribution implements Node {
+  id: ID!
+  qty: Int!
+  message: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""A connection to a list of items."""
+type ContributionConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ContributionEdge]!
+  aggregate: AggregateContribution!
+}
+
+input ContributionCreateInput {
+  id: ID
+  qty: Int!
+  message: String
+}
+
+"""An edge in a connection."""
+type ContributionEdge {
+  """The item at the end of the edge."""
+  node: Contribution!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum ContributionOrderByInput {
+  id_ASC
+  id_DESC
+  qty_ASC
+  qty_DESC
+  message_ASC
+  message_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type ContributionPreviousValues {
+  id: ID!
+  qty: Int!
+  message: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type ContributionSubscriptionPayload {
+  mutation: MutationType!
+  node: Contribution
+  updatedFields: [String!]
+  previousValues: ContributionPreviousValues
+}
+
+input ContributionSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ContributionSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ContributionSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ContributionSubscriptionWhereInput!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: ContributionWhereInput
+}
+
+input ContributionUpdateInput {
+  qty: Int
+  message: String
+}
+
+input ContributionUpdateManyMutationInput {
+  qty: Int
+  message: String
+}
+
+input ContributionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ContributionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ContributionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ContributionWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  qty: Int
+
+  """All values that are not equal to given value."""
+  qty_not: Int
+
+  """All values that are contained in given list."""
+  qty_in: [Int!]
+
+  """All values that are not contained in given list."""
+  qty_not_in: [Int!]
+
+  """All values less than the given value."""
+  qty_lt: Int
+
+  """All values less than or equal the given value."""
+  qty_lte: Int
+
+  """All values greater than the given value."""
+  qty_gt: Int
+
+  """All values greater than or equal the given value."""
+  qty_gte: Int
+  message: String
+
+  """All values that are not equal to given value."""
+  message_not: String
+
+  """All values that are contained in given list."""
+  message_in: [String!]
+
+  """All values that are not contained in given list."""
+  message_not_in: [String!]
+
+  """All values less than the given value."""
+  message_lt: String
+
+  """All values less than or equal the given value."""
+  message_lte: String
+
+  """All values greater than the given value."""
+  message_gt: String
+
+  """All values greater than or equal the given value."""
+  message_gte: String
+
+  """All values containing the given string."""
+  message_contains: String
+
+  """All values not containing the given string."""
+  message_not_contains: String
+
+  """All values starting with the given string."""
+  message_starts_with: String
+
+  """All values not starting with the given string."""
+  message_not_starts_with: String
+
+  """All values ending with the given string."""
+  message_ends_with: String
+
+  """All values not ending with the given string."""
+  message_not_ends_with: String
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+}
+
+input ContributionWhereUniqueInput {
+  id: ID
+}
+
+scalar DateTime
+
 """
 The `Long` scalar type represents non-fractional signed whole numeric values.
 Long can represent values between -(2^63) and 2^63 - 1.
@@ -18,11 +286,17 @@ scalar Long
 
 type Mutation {
   createUser(data: UserCreateInput!): User!
+  createContribution(data: ContributionCreateInput!): Contribution!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  updateContribution(data: ContributionUpdateInput!, where: ContributionWhereUniqueInput!): Contribution
   deleteUser(where: UserWhereUniqueInput!): User
+  deleteContribution(where: ContributionWhereUniqueInput!): Contribution
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  upsertContribution(where: ContributionWhereUniqueInput!, create: ContributionCreateInput!, update: ContributionUpdateInput!): Contribution!
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
+  updateManyContributions(data: ContributionUpdateManyMutationInput!, where: ContributionWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
+  deleteManyContributions(where: ContributionWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -54,8 +328,11 @@ type PageInfo {
 
 type Query {
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
+  contributions(where: ContributionWhereInput, orderBy: ContributionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Contribution]!
   user(where: UserWhereUniqueInput!): User
+  contribution(where: ContributionWhereUniqueInput!): Contribution
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  contributionsConnection(where: ContributionWhereInput, orderBy: ContributionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ContributionConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -66,6 +343,7 @@ type Query {
 
 type Subscription {
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+  contribution(where: ContributionSubscriptionWhereInput): ContributionSubscriptionPayload
 }
 
 type User implements Node {
