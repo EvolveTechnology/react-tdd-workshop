@@ -7,8 +7,10 @@ type User {
 
 type Mutation {
   createContribution(qty: Int!, message: String): Contribution!
+  updateSeen(id: ID!):Contribution!
 }
 
 type Query {
   getAllContributions: [Contribution!]!
+  getContribution(where: ContributionWhereUniqueInput!): Contribution
 }
