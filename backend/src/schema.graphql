@@ -10,4 +10,5 @@ type Mutation {
 type Query {
   getAllContributions: [Contribution!]!
   getContribution(where: ContributionWhereUniqueInput!): Contribution
+  whoAmI: User
 }
