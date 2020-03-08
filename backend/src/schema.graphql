@@ -1,11 +1,16 @@
 # import * from './generated/prisma.graphql'
 
+type Success {
+  message: String
+}
+
 type Mutation {
   createContribution(qty: Int!, message: String): Contribution!
   contributeMore(id: ID!, qty: Int!): Contribution!
   updateSeen(id: ID!): Contribution!
   signUp(email: String!, password: String!, name: String!): User!
   signIn(email: String!, password: String!): User!
+  signOut: Success
 }
 
 type Query {
