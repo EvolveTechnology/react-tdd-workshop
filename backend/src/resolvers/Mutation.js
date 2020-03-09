@@ -4,6 +4,8 @@ const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
 const { randomBytes } = require("crypto");
 
+const { transport, createTemplate } = require("../mail");
+
 const ONE_HOUR = 1000 * 60 * 60;
 const ONE_YEAR = ONE_HOUR * 24 * 365;
 
@@ -116,7 +118,20 @@ const Mutation = {
       data: { resetToken, resetTokenExpiry }
     });
 
-    // TODO email user a link include the resetToken in the URL
+    await transport
+      .sendMail({
+        from: process.env.MAIL_USER,
+        to: user.email,
+        subject: "Password Reset",
+        html: createTemplate(`You requested a password reset!
+		\n\n
+		<a href="${process.env.FRONTEND_URL}/reset?resetToken=${resetToken}">Click here to reset.</a>
+		`)
+      })
+      .catch(err => {
+        console.log(err);
+        throw new Error("Failed to send email");
+      });
 
     return { message: "Done" };
   },
