@@ -25,7 +25,11 @@ const Mutation = {
     return contribution;
   },
   async contributeMore(parent, args, ctx, info) {
-    const { id, qty } = args;
+    if (!ctx.request.userId) {
+      throw new Error("Must be logged in to contribute");
+    }
+    const { qty } = args;
+    const id = ctx.request.userId;
     const contribution = await ctx.db.query.contribution({
       where: { id }
     });
