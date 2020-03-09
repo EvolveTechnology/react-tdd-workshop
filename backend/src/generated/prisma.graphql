@@ -1,5 +1,5 @@
 # source: https://eu1.prisma.sh/joseph-e465e0/awesome-demo-service/dev
-# timestamp: Mon Mar 09 2020 17:12:46 GMT+0100 (Central European Standard Time)
+# timestamp: Mon Mar 09 2020 17:37:42 GMT+0100 (Central European Standard Time)
 
 type AggregateContribution {
   count: Int!
@@ -344,10 +344,6 @@ type PageInfo {
 enum Permission {
   ADMIN
   USER
-  CONTRIBUTION_CREATE
-  CONTRIBUTION_UPDATE
-  CONTRIBUTION_DELETE
-  PERMISSION_UPDATE
 }
 
 type Query {

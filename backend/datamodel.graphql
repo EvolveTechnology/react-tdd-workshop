@@ -4,10 +4,6 @@ Used against the Prisma SQL dB
 enum Permission {
   ADMIN
   USER
-  CONTRIBUTION_CREATE
-  CONTRIBUTION_UPDATE
-  CONTRIBUTION_DELETE
-  PERMISSION_UPDATE
 }
 
 type User {
