@@ -64,7 +64,7 @@ const Mutation = {
           permissions: { set: ["USER"] }
         }
       },
-      info
+      "{ id, name, email, permissions }"
     );
 
     const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
