@@ -11,9 +11,13 @@ const ONE_YEAR = ONE_HOUR * 24 * 365;
 
 const Mutation = {
   async createContribution(parent, args, ctx, info) {
+    if (!ctx.request.userId) {
+      throw new Error("Must be logged in to contribute");
+    }
+
     const contribution = await ctx.db.mutation.createContribution(
       {
-        data: { ...args }
+        data: { ...args, user: { connect: { id: ctx.request.userId } } }
       },
       info
     );
@@ -75,7 +79,7 @@ const Mutation = {
   },
   async signIn(parent, args, ctx, info) {
     const { email, password } = args;
-    const user = await ctx.query.user({ where: { email } });
+    const user = await ctx.db.query.user({ where: { email } });
 
     if (!user) {
       throw new Error(`User not found, ${email}`);
@@ -87,14 +91,14 @@ const Mutation = {
       throw new Error("Invalid password");
     }
 
-    const token = jw.sign({ userId: user.id }, process.env.APP_SECRET);
+    const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
 
     ctx.response.cookie("token", token, {
       httpOnly: true,
       maxAge: ONE_YEAR
     });
 
-    return true;
+    return user;
   },
   signOut(parent, args, ctx, info) {
     ctx.response.clearCookie("token");

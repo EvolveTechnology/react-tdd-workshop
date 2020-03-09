@@ -27,5 +27,5 @@ type Contribution {
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
   seen: Boolean! @default(value: false)
-  # user: User!
+  user: User!
 }
