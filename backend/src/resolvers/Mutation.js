@@ -5,19 +5,40 @@ const { promisify } = require("util");
 const { randomBytes } = require("crypto");
 
 const { transport, createTemplate } = require("../mail");
+const stripe = require("../stripe");
 
 const ONE_HOUR = 1000 * 60 * 60;
 const ONE_YEAR = ONE_HOUR * 24 * 365;
 
 const Mutation = {
   async createContribution(parent, args, ctx, info) {
-    if (!ctx.request.userId) {
+    const { userId } = ctx.request;
+    if (!userId) {
       throw new Error("Must be logged in to contribute");
     }
 
+    const user = await ctx.db.query.user(
+      { where: { id: userId } },
+      "{ id name email }"
+    );
+
+    const { token, qty, ...rest } = args;
+
+    const amount = qty * process.env.COFFEE_PRICE;
+
+    const charge = await stripe.charges
+      .create({
+        amount,
+        currency: "SEK",
+        source: token
+      })
+      .catch(err => {
+        throw new Error("Could not process the charge");
+      });
+
     const contribution = await ctx.db.mutation.createContribution(
       {
-        data: { ...args, user: { connect: { id: ctx.request.userId } } }
+        data: { ...rest, qty, user: { connect: { id: userId } } }
       },
       info
     );
