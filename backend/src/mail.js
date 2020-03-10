@@ -18,7 +18,7 @@ const createTemplate = text => `
 		line-height: 1.5;
 		font-size: 20px;
 	">
-		<h2>Hi!</h2>
+		<h2>Hello there!</h2>
 		<p>${text}</p>
 
 		<p>☕☕☕</p>
