@@ -1,13 +1,36 @@
 const Query = {
-  async getAllContributions(parent, args, ctx, info) {
-    const contributions = await ctx.db.query.contributions();
-    return contributions;
+  async allContributions(parent, args, ctx, info) {
+    const { userId } = ctx.request;
+    if (!userId) {
+      throw new Error("Log in as Admin to see all");
+    }
+
+    const { permissions } = await ctx.db.query.user(
+      { where: { id: userId } },
+      `{ permissions }`
+    );
+    const isAdmin = permissions.includes("ADMIN");
+
+    if (!isAdmin) {
+      throw new Error("Log in as Admin to see all");
+    }
+
+    return ctx.db.query.contributions({}, info);
   },
-  async getContribution(parent, args, ctx, info) {
-    const contribution = await ctx.db.query.contribution(args, info);
-    return contribution;
+  publicContributions(parent, args, ctx, info) {
+    return ctx.db.query.contributions(
+      { where: { private: false } },
+      `{
+		id
+		message
+		createdAt
+		updatedAt
+		seen
+		user { name }
+	}`
+    );
   },
-  async getMyContributions(parent, args, ctx, info) {
+  async myContributions(parent, args, ctx, info) {
     const { userId } = ctx.request;
 
     if (!userId) {
