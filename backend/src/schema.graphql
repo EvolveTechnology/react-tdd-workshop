@@ -19,9 +19,21 @@ type Mutation {
 }
 
 type Query {
-  getAllContributions: [Contribution!]!
-  getContribution(where: ContributionWhereUniqueInput!): Contribution
+  getAllContributions: [ContributionDetails!]!
+  getContribution(where: ContributionWhereUniqueInput!): ContributionDetails
+  getMyContributions: [ContributionDetails!]!
   whoAmI: User
+}
+
+type ContributionDetails {
+  id: ID!
+  user: User!
+  qty: Int!
+  message: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  private: Boolean!
+  seen: Boolean!
 }
 
 type User {
