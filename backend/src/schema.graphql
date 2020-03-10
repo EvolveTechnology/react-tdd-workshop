@@ -6,7 +6,6 @@ type Success {
 
 type Mutation {
   createContribution(qty: Int!, message: String, token: String!): Contribution!
-  contributeMore(id: ID!, qty: Int!, token: String!): Contribution!
   updateSeen(id: ID!): Contribution!
   signUp(email: String!, password: String!, name: String!): User!
   signIn(email: String!, password: String!): User!

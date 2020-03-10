@@ -45,21 +45,6 @@ const Mutation = {
 
     return contribution;
   },
-  async contributeMore(parent, args, ctx, info) {
-    if (!ctx.request.userId) {
-      throw new Error("Must be logged in to contribute");
-    }
-    const { qty } = args;
-    const id = ctx.request.userId;
-    const contribution = await ctx.db.query.contribution({
-      where: { id }
-    });
-
-    return ctx.db.mutation.updateContribution({
-      data: { qty: contribution.qty + qty },
-      where: { id }
-    });
-  },
   async updateSeen(parent, args, ctx, info) {
     const { id } = args;
     const { seen, ...rest } = await ctx.db.query.contribution({
