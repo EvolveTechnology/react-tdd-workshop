@@ -1,5 +1,5 @@
 # source: https://eu1.prisma.sh/joseph-e465e0/awesome-demo-service/dev
-# timestamp: Mon Mar 09 2020 17:37:42 GMT+0100 (Central European Standard Time)
+# timestamp: Tue Mar 10 2020 07:14:23 GMT+0100 (Central European Standard Time)
 
 type AggregateContribution {
   count: Int!
@@ -21,6 +21,7 @@ type Contribution implements Node {
   createdAt: DateTime!
   updatedAt: DateTime!
   seen: Boolean!
+  private: Boolean!
   user: User!
 }
 
@@ -39,6 +40,7 @@ input ContributionCreateInput {
   qty: Int!
   message: String
   seen: Boolean
+  private: Boolean
   user: UserCreateOneInput!
 }
 
@@ -64,6 +66,8 @@ enum ContributionOrderByInput {
   updatedAt_DESC
   seen_ASC
   seen_DESC
+  private_ASC
+  private_DESC
 }
 
 type ContributionPreviousValues {
@@ -73,6 +77,7 @@ type ContributionPreviousValues {
   createdAt: DateTime!
   updatedAt: DateTime!
   seen: Boolean!
+  private: Boolean!
 }
 
 type ContributionSubscriptionPayload {
@@ -116,6 +121,7 @@ input ContributionUpdateInput {
   qty: Int
   message: String
   seen: Boolean
+  private: Boolean
   user: UserUpdateOneRequiredInput
 }
 
@@ -123,6 +129,7 @@ input ContributionUpdateManyMutationInput {
   qty: Int
   message: String
   seen: Boolean
+  private: Boolean
 }
 
 input ContributionWhereInput {
@@ -284,6 +291,10 @@ input ContributionWhereInput {
 
   """All values that are not equal to given value."""
   seen_not: Boolean
+  private: Boolean
+
+  """All values that are not equal to given value."""
+  private_not: Boolean
   user: UserWhereInput
 }
 

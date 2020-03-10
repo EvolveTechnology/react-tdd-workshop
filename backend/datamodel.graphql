@@ -23,5 +23,6 @@ type Contribution {
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
   seen: Boolean! @default(value: false)
+  private: Boolean! @default(value: false)
   user: User!
 }
