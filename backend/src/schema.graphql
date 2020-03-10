@@ -5,7 +5,12 @@ type Success {
 }
 
 type Mutation {
-  createContribution(qty: Int!, message: String, token: String!): Contribution!
+  createContribution(
+    qty: Int!
+    message: String
+    token: String!
+    private: Boolean
+  ): Contribution!
   updateSeen(id: ID!): Contribution!
   signUp(email: String!, password: String!, name: String!): User!
   signIn(email: String!, password: String!): User!
@@ -19,9 +24,9 @@ type Mutation {
 }
 
 type Query {
-  getAllContributions: [ContributionDetails!]!
-  getContribution(where: ContributionWhereUniqueInput!): ContributionDetails
-  getMyContributions: [ContributionDetails!]!
+  allContributions: [ContributionDetails!]!
+  publicContributions: [ContributionDetails!]!
+  myContributions: [ContributionDetails!]!
   whoAmI: User
 }
 
@@ -30,10 +35,10 @@ type ContributionDetails {
   user: User!
   qty: Int!
   message: String
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  private: Boolean!
-  seen: Boolean!
+  createdAt: DateTime
+  updatedAt: DateTime
+  private: Boolean
+  seen: Boolean
 }
 
 type User {

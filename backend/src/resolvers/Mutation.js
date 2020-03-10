@@ -17,22 +17,17 @@ const Mutation = {
       throw new Error("Must be logged in to contribute");
     }
 
-    const user = await ctx.db.query.user(
-      { where: { id: userId } },
-      "{ id name email }"
-    );
-
     const { token, qty, ...rest } = args;
 
     const amount = qty * process.env.COFFEE_PRICE;
 
-    const charge = await stripe.charges
+    await stripe.charges
       .create({
         amount,
         currency: "SEK",
         source: token
       })
-      .catch(err => {
+      .catch(() => {
         throw new Error("Could not process the charge");
       });
 
@@ -46,22 +41,22 @@ const Mutation = {
     return contribution;
   },
   async updateSeen(parent, args, ctx, info) {
-	const { userId } = ctx.request;
+    const { userId } = ctx.request;
 
-	if (!userId) {
-		throw new Error("Must be logged in to change seen status");
-	}
+    if (!userId) {
+      throw new Error("Must be logged in");
+    }
 
     const { permissions } = await ctx.db.query.user(
       { where: { id: userId } },
       "{ permissions }"
-	);
+    );
 
-	const isAdmin = permissions.includes("ADMIN");
+    const isAdmin = permissions.includes("ADMIN");
 
-	if (!isAdmin) {
-		throw new Error("Must be Admin to change seen status");
-	}
+    if (!isAdmin) {
+      throw new Error("Must be Admin to change seen status");
+    }
 
     const { id } = args;
     const { seen, ...rest } = await ctx.db.query.contribution({
@@ -91,7 +86,7 @@ const Mutation = {
           permissions: { set: ["USER"] }
         }
       },
-      "{ id, name, email, permissions }"
+      `{ id name email permissions }`
     );
 
     const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
@@ -106,7 +101,10 @@ const Mutation = {
   },
   async signIn(parent, args, ctx, info) {
     const { email, password } = args;
-    const user = await ctx.db.query.user({ where: { email } });
+    const user = await ctx.db.query.user(
+      { where: { email } },
+      `{ id name permissions email password }`
+    );
 
     if (!user) {
       throw new Error(`User not found, ${email}`);
