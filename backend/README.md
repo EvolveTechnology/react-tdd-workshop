@@ -2,7 +2,6 @@
 
 ## Prisma Instructions
 
-
 1. Go to [Prisma](https://www.prisma.io/)
 2. Sign in with GitHub or make an account
 3. Install `npm i -g prisma` or `yarn global add prisma`
@@ -14,7 +13,7 @@
 	- Name the stage.
 	- Do not create a client.
 6. Open a text editor and see the created files.
-7. Use the `variables.env` file to hold data for `prisma.yml`
+7. Create and use a `variables.env` file to hold data for `prisma.yml`
 	- PRISMA_ENDPOINT
 	- PRISMA_SECRET
 8. Use hooks in the `prisma.yml` file
@@ -32,3 +31,45 @@
 - Create server with graphql-yoga
 - Create resolver placeholders
 - Spin up the server from `src/index.js`
+
+## Mailtrap
+
+Create a mailtrap account and fill in the `variables.env` file with mailtraps data:
+
+```
+MAIL_HOST="smtp.mailtrap.io"
+MAIL_PORT=2525
+MAIL_USER="Your User"
+MAIL_PASS="Your Pass"
+```
+
+## Stripe
+
+- Sign up for a Stripe account. By default, you'll be in test mode. Double check!
+- Get a test public key and test secret key
+- Add the secret key to your `variables.env`
+
+The `variable.env` file should look something like this by now:
+
+```
+FRONTEND_URL="http://localhost:3000"
+PRISMA_ENDPOINT="Your endpoint"
+PRISMA_SECRET="Your secret"
+APP_SECRET="Yet another secret"
+PORT=8080
+MAIL_HOST="smtp.mailtrap.io"
+MAIL_PORT=2525
+MAIL_USER="Your User"
+MAIL_PASS="Your Pass"
+COFFEE_PRICE=20
+STRIPE_SECRET="Your secret key"
+```
+
+## Running the back end
+
+Using either `npm` or `yarn`, install dependencies. 
+
+The project has a `yarn.lock` file, which will make it more predictable during the workshop. 
+
+If `npm i` gives you problems, consider using `yarn` instead. 
+
