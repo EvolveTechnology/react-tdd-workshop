@@ -46,6 +46,23 @@ const Mutation = {
     return contribution;
   },
   async updateSeen(parent, args, ctx, info) {
+	const { userId } = ctx.request;
+
+	if (!userId) {
+		throw new Error("Must be logged in to change seen status");
+	}
+
+    const { permissions } = await ctx.db.query.user(
+      { where: { id: userId } },
+      "{ permissions }"
+	);
+
+	const isAdmin = permissions.includes("ADMIN");
+
+	if (!isAdmin) {
+		throw new Error("Must be Admin to change seen status");
+	}
+
     const { id } = args;
     const { seen, ...rest } = await ctx.db.query.contribution({
       where: { id }
