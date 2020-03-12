@@ -59,7 +59,7 @@ function App() {
             Buy me a coffee
           </Text>
           <Box mx="auto" />
-          <Link variant="nav" href="#!">
+          <Link variant="nav" href="#!" fontSize={2}>
             Log In
           </Link>
         </Flex>
