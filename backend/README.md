@@ -62,6 +62,7 @@ MAIL_PORT=2525
 MAIL_USER="Your User"
 MAIL_PASS="Your Pass"
 COFFEE_PRICE=20
+CURRENCY=SEK
 STRIPE_SECRET="Your secret key"
 ```
 

@@ -19,6 +19,7 @@ type User {
 type Contribution {
   id: ID! @id
   qty: Int!
+  unitPrice: Int!
   message: String
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt

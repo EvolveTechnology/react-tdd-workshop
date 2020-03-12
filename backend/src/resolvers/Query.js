@@ -62,6 +62,11 @@ const Query = {
       return null;
     }
     return ctx.db.query.user({ where: { id: ctx.request.userId } }, info);
+  },
+  coffeePrice(parent, args, ctx, info) {
+    const unitPrice = process.env.COFFEE_PRICE || 0;
+    const currency = process.env.CURRENCY;
+    return { unitPrice, currency };
   }
 };
 

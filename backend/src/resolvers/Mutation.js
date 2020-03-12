@@ -19,12 +19,14 @@ const Mutation = {
 
     const { token, qty, ...rest } = args;
 
-    const amount = qty * process.env.COFFEE_PRICE;
+    const currency = process.env.CURRENCY;
+    const unitPrice = process.env.COFFEE_PRICE;
+    const amount = qty * unitPrice;
 
     await stripe.charges
       .create({
         amount,
-        currency: "SEK",
+        currency,
         source: token
       })
       .catch(() => {
@@ -33,7 +35,7 @@ const Mutation = {
 
     const contribution = await ctx.db.mutation.createContribution(
       {
-        data: { ...rest, qty, user: { connect: { id: userId } } }
+        data: { ...rest, qty, unitPrice, user: { connect: { id: userId } } }
       },
       info
     );
