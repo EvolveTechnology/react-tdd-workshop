@@ -11,7 +11,7 @@ import GlobalStyle from "styles/global";
 
 import * as serviceWorker from "./serviceWorker";
 
-const stripePromise = loadStripe("pk_test_UL6dvPbq9B6hLRyzs8VVQfrC007HfqtqAi");
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
 
 ReactDOM.render(
   <Elements

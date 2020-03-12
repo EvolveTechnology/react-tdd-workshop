@@ -57,3 +57,12 @@ I searched around for one and found [this list.](https://github.com/brillout/awe
 ## On Dependencies
 
 Even though not all libraries installed are used across all branches and even in the final build, it is good to have them all installed once and forget about it. From `master`, run yarn on this directory.
+
+## .env
+
+Create .env file with:
+
+```
+REACT_APP_BACKEND_URL="http://localhost:8080"
+REACT_APP_STRIPE_PUBLIC_KEY="your key"
+```
