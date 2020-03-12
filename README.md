@@ -141,3 +141,8 @@ Using only these, and following the TDD paradigm, finish building your `Buy me a
 
 - If the reset is successful the backend will give them a route to follow, implement that route.
   - The route looks like this: https://localhost:3000/reset?resetToken="kslskslds"
+
+## Credit
+
+The icons used in the front end project come from [icons8](https://icons8.com/). Check them out!
+
