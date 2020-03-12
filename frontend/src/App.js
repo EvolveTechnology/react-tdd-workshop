@@ -150,7 +150,7 @@ function App() {
                 <Label htmlFor="percent" my={3} fontSize={3}>
                   Pay with Stripe
                 </Label>
-                <Box maxWidth="400px">
+                <Box maxWidth="400px" margin="0 auto">
                   <CardElement
                     options={{
                       style: {
@@ -169,7 +169,7 @@ function App() {
                   onClick={close}
                   color="white"
                   bg="highlight"
-                  fontSize={5}
+                  fontSize={4}
                   marginTop={2}
                   disabled={!enableCheckout}
                   style={{
@@ -182,7 +182,7 @@ function App() {
                   onClick={close}
                   color="secondary"
                   variant="outline"
-                  fontSize={5}
+                  fontSize={4}
                   marginTop={2}
                   style={{ border: "1px solid" }}
                 >
