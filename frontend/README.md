@@ -18,6 +18,8 @@ This project will use:
 - redux + react-redux
 - react-router-dom
 
+- Graphical content in the assets folder exist thanks to [icons8](https://icons8.com/).
+
 - And the backend project on this repository :)
 
 No more buzzwords!
