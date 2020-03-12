@@ -54,6 +54,13 @@ query identity {
   }
 }
 
+query coffeePrice {
+  coffeePrice{
+    currency
+    unitPrice
+  }
+}
+
 mutation createUser{
   	signUp(email:"example@email.com", password:"password", name:"Username"){
     id
