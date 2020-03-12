@@ -83,7 +83,8 @@ function App() {
             src={CoffeeCup}
             my={1}
             sx={{
-              width: ["40%", "30%", "25%", "20%", "15%"]
+              width: ["40%", "30%", "25%", "20%", "15%"],
+              cursor: "pointer"
             }}
             onClick={open}
           />
