@@ -28,6 +28,7 @@ type Query {
   publicContributions: [ContributionDetails!]!
   myContributions: [ContributionDetails!]!
   whoAmI: User
+  coffeePrice: CoffePrice
 }
 
 type ContributionDetails {
@@ -46,4 +47,9 @@ type User {
   name: String!
   email: String!
   permissions: [Permission]
+}
+
+type CoffePrice {
+  unitPrice: Int!
+  currency: String!
 }

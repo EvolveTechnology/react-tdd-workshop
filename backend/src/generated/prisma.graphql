@@ -1,5 +1,5 @@
 # source: https://eu1.prisma.sh/joseph-e465e0/awesome-demo-service/dev
-# timestamp: Tue Mar 10 2020 07:14:23 GMT+0100 (Central European Standard Time)
+# timestamp: Thu Mar 12 2020 18:10:30 GMT+0100 (Central European Standard Time)
 
 type AggregateContribution {
   count: Int!
@@ -17,6 +17,7 @@ type BatchPayload {
 type Contribution implements Node {
   id: ID!
   qty: Int!
+  unitPrice: Int!
   message: String
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -38,6 +39,7 @@ type ContributionConnection {
 input ContributionCreateInput {
   id: ID
   qty: Int!
+  unitPrice: Int!
   message: String
   seen: Boolean
   private: Boolean
@@ -58,6 +60,8 @@ enum ContributionOrderByInput {
   id_DESC
   qty_ASC
   qty_DESC
+  unitPrice_ASC
+  unitPrice_DESC
   message_ASC
   message_DESC
   createdAt_ASC
@@ -73,6 +77,7 @@ enum ContributionOrderByInput {
 type ContributionPreviousValues {
   id: ID!
   qty: Int!
+  unitPrice: Int!
   message: String
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -119,6 +124,7 @@ input ContributionSubscriptionWhereInput {
 
 input ContributionUpdateInput {
   qty: Int
+  unitPrice: Int
   message: String
   seen: Boolean
   private: Boolean
@@ -127,6 +133,7 @@ input ContributionUpdateInput {
 
 input ContributionUpdateManyMutationInput {
   qty: Int
+  unitPrice: Int
   message: String
   seen: Boolean
   private: Boolean
@@ -203,6 +210,28 @@ input ContributionWhereInput {
 
   """All values greater than or equal the given value."""
   qty_gte: Int
+  unitPrice: Int
+
+  """All values that are not equal to given value."""
+  unitPrice_not: Int
+
+  """All values that are contained in given list."""
+  unitPrice_in: [Int!]
+
+  """All values that are not contained in given list."""
+  unitPrice_not_in: [Int!]
+
+  """All values less than the given value."""
+  unitPrice_lt: Int
+
+  """All values less than or equal the given value."""
+  unitPrice_lte: Int
+
+  """All values greater than the given value."""
+  unitPrice_gt: Int
+
+  """All values greater than or equal the given value."""
+  unitPrice_gte: Int
   message: String
 
   """All values that are not equal to given value."""
