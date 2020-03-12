@@ -1,20 +1,46 @@
 import React from "react";
 
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+
 import App from "App";
+
+import { mount } from "enzyme";
 
 import { render } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 
+beforeAll(() => {
+  jest.mock("@stripe/stripe-js", () => ({
+    loadStripe: () => ({ createPaymentMethod: () => {} })
+  }));
+});
+
 describe("Credit icon providers", () => {
+  const stripePromise = loadStripe();
+  const { getByText } = render(
+    <Elements stripe={stripePromise}>
+      <App />
+    </Elements>
+  );
+  const element = getByText(/icons8/i);
+
   it("Mentions the icon providers", () => {
-    expect(true).toBe(false);
+    expect(element).toBeInTheDocument();
   });
 
   it("Links to the icon providers", () => {
-    expect(true).toBe(false);
+    expect(element.getAttribute("href")).toMatch("icons8.com");
   });
 });
 
 test("Credit style", () => {
-  expect(true).toBe(false);
+  const stripePromise = loadStripe();
+  let app = mount(
+    <Elements stripe={stripePromise}>
+      <App />
+    </Elements>
+  );
+
+  expect(app.html()).toMatchSnapshot();
 });
