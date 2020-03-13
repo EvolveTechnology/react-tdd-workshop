@@ -9,8 +9,8 @@ import { render } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 
 describe("Credit icon providers", () => {
-  const stripePromise = loadStripe();
-  
+  const stripePromise = loadStripe("key");
+
   const { getByText } = render(
     <Elements stripe={stripePromise}>
       <App />
