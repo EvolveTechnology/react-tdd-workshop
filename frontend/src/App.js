@@ -16,6 +16,8 @@ import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 
 import Dialog from "@reach/dialog";
 
+import { Footer } from "components/Footer";
+
 import CoffeeCupWithSmile from "assets/coffee_cup_with_smile.png";
 import CoffeeCup from "assets/coffee_cup.png";
 import CoffeeToGo from "assets/coffee_to_go.png";
@@ -322,17 +324,7 @@ function App() {
         <Image src={CoffeeToGo} />
         <Image src={ReactLogo} width="64px" />
       </Flex>
-      <Flex fontSize={2}>
-        <Text
-          as="a"
-          href="https://icons8.com/"
-          rel="noopener noreferrer"
-          margin="0 auto 1em"
-          style={{ textDecoration: "underline" }}
-        >
-          Icons thanks to Icons8
-        </Text>
-      </Flex>
+      <Footer />
     </Box>
   );
 }
