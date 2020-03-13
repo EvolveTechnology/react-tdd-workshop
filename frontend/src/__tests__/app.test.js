@@ -4,6 +4,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 
 import App from "App";
+import { act } from "react-dom/test-utils";
 
 import { render } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
@@ -13,15 +14,22 @@ describe("Credit icon providers", () => {
 
   const stripePromise = loadStripe("key", mockCreateElement);
 
-  const { getByText } = render(
-    <Elements stripe={stripePromise}>
-      <App />
-    </Elements>
-  );
+  let getByText;
+  let credits;
 
-  const credits = getByText(/icons8/i);
+  it("Mentions the icon providers", async () => {
+    // async blocks can only be in `it` blocks or `test` blocks
+    await act(async () => {
+      const queries = await render(
+        <Elements stripe={stripePromise}>
+          <App />
+        </Elements>
+      );
 
-  it("Mentions the icon providers", () => {
+      getByText = queries.getByText;
+    });
+
+    credits = getByText(/icons8/i);
     expect(credits).toBeInTheDocument();
   });
 
