@@ -6,21 +6,43 @@ import { loadStripe } from "@stripe/stripe-js";
 import App from "App";
 import { act } from "react-dom/test-utils";
 
-import { render } from "@testing-library/react/pure";
+import { render } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 
 // But the better solution is to write fewer, longer tests: https://kentcdodds.com/blog/write-fewer-longer-tests
 
-describe("Credit icon providers", () => {
+describe("External services", () => {
   const mockCreateElement = jest.fn();
-
-  const stripePromise = loadStripe("key", mockCreateElement);
-
   let queries;
-
   let credits;
 
   beforeAll(async () => {
+    await act(async () => {
+      const stripePromise = loadStripe("key", mockCreateElement);
+      queries = await render(
+        <Elements stripe={stripePromise}>
+          <App />
+        </Elements>
+      );
+    });
+  });
+
+  it("Mentions the icon providers and creates stripe element", async () => {
+    // async blocks can only be in `it` blocks or `test` blocks
+    credits = queries.getByText(/icons8/i);
+
+    expect(credits).toBeInTheDocument();
+    expect(credits.getAttribute("href")).toMatch("icons8.com");
+
+    expect(mockCreateElement).toHaveBeenCalled();
+  });
+});
+
+describe("Layout elements", () => {
+  let queries;
+
+  beforeAll(async () => {
+    const stripePromise = loadStripe("key");
     await act(async () => {
       queries = await render(
         <Elements stripe={stripePromise}>
@@ -30,32 +52,13 @@ describe("Credit icon providers", () => {
     });
   });
 
-  it("Mentions the icon providers", async () => {
-    // async blocks can only be in `it` blocks or `test` blocks
-    credits = queries.getByText(/icons8/i);
-    expect(credits).toBeInTheDocument();
-  });
-
-  it("Links to the icon providers", () => {
-    expect(credits.getAttribute("href")).toMatch("icons8.com");
-  });
-
-  it("Calls stripe elements", () => {
-    expect(mockCreateElement).toHaveBeenCalled();
-  });
-
-  it("Has a donate button", () => {
+  it("Has a donate button, navigation bar, and contributors title", () => {
     const donateButton = queries.getByTestId("donate-button");
-    expect(donateButton).toBeInTheDocument();
-  });
-
-  it("Has a navigation bar", () => {
     const navbar = queries.getByTestId("navbar");
-    expect(navbar).toBeInTheDocument();
-  });
-
-  it("Has a contributors title", () => {
     const contributorsTitle = queries.getByTestId("contributors-title");
+
+    expect(donateButton).toBeInTheDocument();
+    expect(navbar).toBeInTheDocument();
     expect(contributorsTitle).toBeInTheDocument();
   });
 });
