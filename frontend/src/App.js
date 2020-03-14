@@ -72,7 +72,12 @@ function App() {
         </Button>
       </Flex>
 
-      <Dialog aria-label="Donate" isOpen={showDialog} onDismiss={close}>
+      <Dialog
+        aria-label="Donate"
+        isOpen={showDialog}
+        onDismiss={close}
+        data-testid="donate-dialog"
+      >
         <Flex flexDirection="column">
           <Login />
           <Checkout onCancel={close} />
