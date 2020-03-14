@@ -93,5 +93,9 @@ describe("Donate click", () => {
 
     expect(login).toBeInTheDocument();
     expect(contribute).toBeInTheDocument();
+
+    // on closing
+    expect(login).not.toBeInTheDocument();
+    expect(contribute).not.toBeInTheDocument();
   });
 });
