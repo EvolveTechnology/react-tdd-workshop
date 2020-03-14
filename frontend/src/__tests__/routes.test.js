@@ -7,7 +7,7 @@ import Routes from "routes";
 
 import { act } from "react-dom/test-utils";
 
-import { render, fireEvent, wait } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 
 // But the better solution is to write fewer, longer tests: https://kentcdodds.com/blog/write-fewer-longer-tests
@@ -92,10 +92,8 @@ describe("Login Route", () => {
       fireEvent.click(homeBtn);
     });
 
-    await wait(() => {
-      expect(loginBtn).not.toBeInTheDocument();
-      expect(loginForm).not.toBeInTheDocument();
-      expect(donateBtn).toBeInTheDocument();
-    });
+    expect(queries.getByTestId("login")).toBeInTheDocument();
+    expect(loginForm).not.toBeInTheDocument();
+    expect(queries.getByTestId("donate-button")).toBeInTheDocument();
   });
 });
