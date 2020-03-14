@@ -4,7 +4,7 @@ import { Button, Flex, Image } from "rebass/styled-components";
 import { Dialog as ReachDialog } from "@reach/dialog";
 
 import { Checkout } from "components/Checkout";
-import { Login } from "components/Login";
+import { LoginForm } from "components/LoginForm";
 
 import CoffeeCup from "assets/coffee_cup.png";
 
@@ -40,7 +40,7 @@ export function Dialog() {
         data-testid="donate-dialog"
       >
         <Flex flexDirection="column">
-          <Login />
+          <LoginForm />
           <Checkout onCancel={close} />
         </Flex>
       </ReachDialog>

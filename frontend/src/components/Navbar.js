@@ -1,8 +1,11 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { Box, Flex, Text } from "rebass/styled-components";
 
 export function Navbar() {
+  const { pathname } = useLocation();
+  const isLogin = pathname.includes("login");
+
   return (
     <Flex
       px={2}
@@ -13,12 +16,18 @@ export function Navbar() {
       data-testid="navbar"
     >
       <Text p={2} fontWeight="bold" fontSize="2rem">
-        <NavLink to="/" data-testid="home">Buy me a coffee</NavLink>
+        <NavLink to="/" data-testid="home">
+          Buy me a coffee
+        </NavLink>
       </Text>
       <Box mx="auto" />
-      <Text variant="nav" fontSize={3} fontWeight="bold">
-        <NavLink to="/login" data-testid="login">Log In</NavLink>
-      </Text>
+      {!isLogin && (
+        <Text variant="nav" fontSize={3} fontWeight="bold">
+          <NavLink to="/login" data-testid="login">
+            Log In
+          </NavLink>
+        </Text>
+      )}
     </Flex>
   );
 }

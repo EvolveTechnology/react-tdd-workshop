@@ -3,7 +3,7 @@ import { Box, Flex, Heading } from "rebass/styled-components";
 
 import { Input, Label } from "@rebass/forms";
 
-export function Login() {
+export function LoginForm() {
   return (
     <Flex flexDirection="column" my={1} alignItems="center">
       <Heading>Log in</Heading>
