@@ -3,7 +3,7 @@ import React from "react";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 
-import App from "App";
+import Landing from "containers/Landing";
 import { act } from "react-dom/test-utils";
 
 import { render, fireEvent } from "@testing-library/react";
@@ -21,7 +21,7 @@ describe("External services", () => {
       const stripePromise = loadStripe("key", mockCreateElement);
       queries = await render(
         <Elements stripe={stripePromise}>
-          <App />
+          <Landing />
         </Elements>
       );
     });
@@ -46,7 +46,7 @@ describe("Layout elements", () => {
     await act(async () => {
       queries = await render(
         <Elements stripe={stripePromise}>
-          <App />
+          <Landing />
         </Elements>
       );
     });
@@ -71,7 +71,7 @@ describe("Donate click", () => {
     await act(async () => {
       queries = await render(
         <Elements stripe={stripePromise}>
-          <App />
+          <Landing />
         </Elements>
       );
     });
