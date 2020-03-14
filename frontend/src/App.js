@@ -54,7 +54,14 @@ function App() {
       margin="0 auto"
       bg="background"
     >
-      <Flex px={2} py={2} color="white" bg="black" alignItems="center">
+      <Flex
+        px={2}
+        py={2}
+        color="white"
+        bg="black"
+        alignItems="center"
+        data-testid="navbar"
+      >
         <Text p={2} fontWeight="bold" fontSize={4}>
           Buy me a coffee
         </Text>
@@ -89,7 +96,13 @@ function App() {
           onClick={open}
         />
 
-        <Button onClick={open} color="white" bg="highlight" fontSize={5}>
+        <Button
+          onClick={open}
+          color="white"
+          bg="highlight"
+          fontSize={5}
+          data-testid="donate-button"
+        >
           Donate
         </Button>
       </Flex>
@@ -195,7 +208,13 @@ function App() {
       </Dialog>
 
       <Flex px={1} my={2} justifyContent="center">
-        <Heading p={2} fontWeight="bold" fontSize={5} color="highlight">
+        <Heading
+          p={2}
+          fontWeight="bold"
+          fontSize={5}
+          color="highlight"
+          data-testid="contributors-title"
+        >
           Contributors
         </Heading>
       </Flex>
