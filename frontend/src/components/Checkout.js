@@ -23,7 +23,7 @@ export function Checkout({ onCancel }) {
   const enableCheckout = hasCups && stripe;
 
   return (
-    <form onSubmit={handleSubmit} data-testid="contribute-form">
+    <>
       <Heading>Make a contribution</Heading>
       <Flex flexDirection="column" my={1}>
         <Box>
@@ -44,37 +44,41 @@ export function Checkout({ onCancel }) {
             ))}
           </Flex>
         </Box>
-        <Label htmlFor="percent" my={3} fontSize={3}>
-          Pay with Stripe
-        </Label>
-        <Box maxWidth="400px" margin="0 auto">
-          <CardElement
-            options={{
-              style: {
-                base: {
-                  fontFamily: "'Inconsolata', monospace",
-                  fontSize: "18px"
-                }
-              }
-            }}
-          />
-          <Label my={1} justifyContent="flex-end" color="#ff0000">
-            This only a demo. Do not use a real card.
+        <form onSubmit={handleSubmit} data-testid="contribute-form">
+          <Label htmlFor="percent" my={3} fontSize={3}>
+            Pay with Stripe
           </Label>
-        </Box>
-        <Button
-          onClick={onCancel}
-          color="white"
-          bg="highlight"
-          fontSize={4}
-          marginTop={2}
-          disabled={!enableCheckout}
-          style={{
-            cursor: enableCheckout ? "pointer" : "not-allowed"
-          }}
-        >
-          Checkout
-        </Button>
+          <Box maxWidth="400px" margin="0 auto">
+            <CardElement
+              options={{
+                style: {
+                  base: {
+                    fontFamily: "'Inconsolata', monospace",
+                    fontSize: "18px"
+                  }
+                }
+              }}
+            />
+            <Label my={1} justifyContent="flex-end" color="#ff0000">
+              This only a demo. Do not use a real card.
+            </Label>
+          </Box>
+          <Button
+            type="submit"
+            color="white"
+            bg="highlight"
+            width="100%"
+            fontSize={4}
+            marginTop={2}
+            disabled={!enableCheckout}
+            style={{
+              cursor: enableCheckout ? "pointer" : "not-allowed"
+            }}
+            data-testid="proceed-checkout"
+          >
+            Checkout
+          </Button>
+        </form>
         <Button
           onClick={onCancel}
           color="secondary"
@@ -87,6 +91,6 @@ export function Checkout({ onCancel }) {
           Cancel
         </Button>
       </Flex>
-    </form>
+    </>
   );
 }
