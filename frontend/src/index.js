@@ -4,7 +4,7 @@ import { ThemeProvider } from "styled-components";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 
-import App from "./App";
+import Landing from "container/Landing";
 
 import theme from "styles/theme";
 import GlobalStyle from "styles/global";
@@ -29,7 +29,7 @@ ReactDOM.render(
   >
     <ThemeProvider theme={theme}>
       <GlobalStyle />
-      <App />
+      <Landing />
     </ThemeProvider>
   </Elements>,
   document.getElementById("root")

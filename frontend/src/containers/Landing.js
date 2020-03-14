@@ -10,7 +10,7 @@ import { Navbar } from "components/Navbar";
 
 import "@reach/dialog/styles.css";
 
-function App() {
+function Landing() {
   return (
     <Container>
       <Navbar />
@@ -43,4 +43,4 @@ function App() {
   );
 }
 
-export default App;
+export default Landing;
