@@ -14,7 +14,18 @@ import { Navbar } from "components/Navbar";
 import client from "client";
 
 import Landing from "containers/Landing";
-import Login from "containers/Login";
+
+const LazyLogin = React.lazy(() =>
+  import(/* webpackChunkName:"login"*/ "./containers/Login")
+);
+
+function SuspenseLogin(props) {
+  return (
+    <React.Suspense fallback={null}>
+      <LazyLogin {...props} />
+    </React.Suspense>
+  );
+}
 
 const Routes = () => (
   <BrowserRouter>
@@ -24,7 +35,7 @@ const Routes = () => (
         <Container>
           <Navbar />
           <Switch>
-            <Route exact path="/login" component={Login} />
+            <Route exact path="/login" component={SuspenseLogin} />
             <Route path="/" component={Landing} />
           </Switch>
           <Footer />

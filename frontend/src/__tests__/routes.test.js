@@ -80,7 +80,7 @@ describe("Login Route", () => {
 
     expect(donateBtn).toBeInTheDocument();
 
-    act(() => {
+    await act(async () => {
       fireEvent.click(loginBtn);
     });
 
