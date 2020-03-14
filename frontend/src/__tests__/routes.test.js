@@ -95,5 +95,20 @@ describe("Login Route", () => {
     expect(queries.getByTestId("login")).toBeInTheDocument();
     expect(loginForm).not.toBeInTheDocument();
     expect(queries.getByTestId("donate-button")).toBeInTheDocument();
+
+    act(() => {
+      fireEvent.click(queries.getByTestId("login"));
+    });
+
+    expect(queries.getByTestId("login-form")).toBeInTheDocument();
+
+    const backBtn = queries.getByTestId("back-home");
+
+    await act(async () => {
+      fireEvent.click(backBtn);
+    });
+
+    expect(queries.getByTestId("login")).toBeInTheDocument();
+    expect(queries.getByTestId("donate-button")).toBeInTheDocument();
   });
 });
