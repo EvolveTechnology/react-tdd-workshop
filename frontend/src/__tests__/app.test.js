@@ -57,3 +57,9 @@ describe("Credit icon providers", () => {
     expect(contributorsTitle).toBeInTheDocument();
   });
 });
+
+describe("Donate click", () => {
+  it("Opens Dialog with login/checkout, which can be cancelled", () => {
+    expect(true).toBe(false);
+  });
+});
