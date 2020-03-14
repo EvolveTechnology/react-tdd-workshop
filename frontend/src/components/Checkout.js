@@ -82,6 +82,7 @@ export function Checkout({ onCancel }) {
           fontSize={4}
           marginTop={2}
           style={{ border: "1px solid" }}
+          data-testid="cancel-checkout"
         >
           Cancel
         </Button>

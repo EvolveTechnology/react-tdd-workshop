@@ -77,12 +77,12 @@ describe("Donate click", () => {
     });
   });
 
-  it("Opens Dialog with login/checkout, which can be cancelled", () => {
+  it("Opens Dialog with login/checkout, which can be cancelled", async () => {
     const donateBtn = queries.getByTestId("donate-button");
 
     expect(donateBtn).toBeInTheDocument();
 
-    fireEvent.click(donateBtn, "click");
+    fireEvent.click(donateBtn);
 
     const dialog = queries.getByTestId("donate-dialog");
 
@@ -93,6 +93,10 @@ describe("Donate click", () => {
 
     expect(login).toBeInTheDocument();
     expect(contribute).toBeInTheDocument();
+
+    const cancelBtn = queries.getByTestId("cancel-checkout");
+
+    fireEvent.click(cancelBtn);
 
     // on closing
     expect(login).not.toBeInTheDocument();
