@@ -4,12 +4,11 @@ import { ThemeProvider } from "styled-components";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 
-import Landing from "container/Landing";
-
 import theme from "styles/theme";
 import GlobalStyle from "styles/global";
 
 import * as serviceWorker from "./serviceWorker";
+import Routes from "routes";
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
 
@@ -29,7 +28,7 @@ ReactDOM.render(
   >
     <ThemeProvider theme={theme}>
       <GlobalStyle />
-      <Landing />
+      <Routes />
     </ThemeProvider>
   </Elements>,
   document.getElementById("root")
