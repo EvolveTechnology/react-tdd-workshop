@@ -7,7 +7,7 @@ import Routes from "routes";
 
 import { act } from "react-dom/test-utils";
 
-import { render } from "@testing-library/react";
+import { render, fireEvent, wait } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 
 // But the better solution is to write fewer, longer tests: https://kentcdodds.com/blog/write-fewer-longer-tests
@@ -65,6 +65,37 @@ describe("Layout elements", () => {
 });
 
 describe("Login Route", () => {
-  // on landing page, clicking on Navbar login link, should load login form route
-  expect(true).toBe(false);
+  let queries;
+
+  beforeAll(async () => {
+    await act(async () => {
+      queries = await render(<Routes />);
+    });
+  });
+
+  it("is possible to navigate back and forth from login to home", async () => {
+    const loginBtn = queries.getByTestId("login");
+    const homeBtn = queries.getByTestId("home");
+    const donateBtn = queries.getByTestId("donate-button");
+
+    expect(donateBtn).toBeInTheDocument();
+
+    act(() => {
+      fireEvent.click(loginBtn);
+    });
+
+    const loginForm = queries.getByTestId("login-form");
+
+    expect(loginForm).toBeInTheDocument();
+
+    await act(async () => {
+      fireEvent.click(homeBtn);
+    });
+
+    await wait(() => {
+      expect(loginBtn).not.toBeInTheDocument();
+      expect(loginForm).not.toBeInTheDocument();
+      expect(donateBtn).toBeInTheDocument();
+    });
+  });
 });
