@@ -6,8 +6,10 @@ import { loadStripe } from "@stripe/stripe-js";
 import App from "App";
 import { act } from "react-dom/test-utils";
 
-import { render } from "@testing-library/react";
+import { render } from "@testing-library/react/pure";
 import "@testing-library/jest-dom/extend-expect";
+
+// But the better solution is to write fewer, longer tests: https://kentcdodds.com/blog/write-fewer-longer-tests
 
 describe("Credit icon providers", () => {
   const mockCreateElement = jest.fn();
@@ -18,7 +20,7 @@ describe("Credit icon providers", () => {
 
   let credits;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     await act(async () => {
       queries = await render(
         <Elements stripe={stripePromise}>
