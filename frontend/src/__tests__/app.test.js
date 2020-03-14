@@ -18,8 +18,7 @@ describe("Credit icon providers", () => {
 
   let credits;
 
-  it("Mentions the icon providers", async () => {
-    // async blocks can only be in `it` blocks or `test` blocks
+  beforeEach(async () => {
     await act(async () => {
       queries = await render(
         <Elements stripe={stripePromise}>
@@ -27,7 +26,10 @@ describe("Credit icon providers", () => {
         </Elements>
       );
     });
+  });
 
+  it("Mentions the icon providers", async () => {
+    // async blocks can only be in `it` blocks or `test` blocks
     credits = queries.getByText(/icons8/i);
     expect(credits).toBeInTheDocument();
   });
