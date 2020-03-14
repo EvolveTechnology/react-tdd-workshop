@@ -40,4 +40,16 @@ describe("Credit icon providers", () => {
   it("Calls stripe elements", () => {
     expect(mockCreateElement).toHaveBeenCalled();
   });
+
+  it("Has a donate button", () => {
+    expect(false).toEqual(true);
+  });
+
+  it("Has a navigation bar", () => {
+    expect(false).toEqual(true);
+  });
+
+  it("Has a contributors title", () => {
+    expect(false).toEqual(true);
+  });
 });
