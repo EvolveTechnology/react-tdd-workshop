@@ -14,22 +14,21 @@ describe("Credit icon providers", () => {
 
   const stripePromise = loadStripe("key", mockCreateElement);
 
-  let getByText;
+  let queries;
+
   let credits;
 
   it("Mentions the icon providers", async () => {
     // async blocks can only be in `it` blocks or `test` blocks
     await act(async () => {
-      const queries = await render(
+      queries = await render(
         <Elements stripe={stripePromise}>
           <App />
         </Elements>
       );
-
-      getByText = queries.getByText;
     });
 
-    credits = getByText(/icons8/i);
+    credits = queries.getByText(/icons8/i);
     expect(credits).toBeInTheDocument();
   });
 
@@ -42,14 +41,17 @@ describe("Credit icon providers", () => {
   });
 
   it("Has a donate button", () => {
-    expect(false).toEqual(true);
+    const donateButton = queries.getByTestId("donate-button");
+    expect(donateButton).toBeInTheDocument();
   });
 
   it("Has a navigation bar", () => {
-    expect(false).toEqual(true);
+    const navbar = queries.getByTestId("navbar");
+    expect(navbar).toBeInTheDocument();
   });
 
   it("Has a contributors title", () => {
-    expect(false).toEqual(true);
+    const contributorsTitle = queries.getByTestId("contributors-title");
+    expect(contributorsTitle).toBeInTheDocument();
   });
 });
