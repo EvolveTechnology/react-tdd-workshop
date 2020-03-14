@@ -6,7 +6,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import App from "App";
 import { act } from "react-dom/test-utils";
 
-import { render } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 
 // But the better solution is to write fewer, longer tests: https://kentcdodds.com/blog/write-fewer-longer-tests
@@ -64,7 +64,34 @@ describe("Layout elements", () => {
 });
 
 describe("Donate click", () => {
+  let queries;
+
+  beforeAll(async () => {
+    const stripePromise = loadStripe("key");
+    await act(async () => {
+      queries = await render(
+        <Elements stripe={stripePromise}>
+          <App />
+        </Elements>
+      );
+    });
+  });
+
   it("Opens Dialog with login/checkout, which can be cancelled", () => {
-    expect(true).toBe(false);
+    const donateBtn = queries.getByTestId("donate-button");
+
+    expect(donateBtn).toBeInTheDocument();
+
+    fireEvent.click(donateBtn, "click");
+
+    const dialog = queries.getByTestId("donate-dialog");
+
+    expect(dialog).toBeInTheDocument();
+
+    const login = queries.getByTestId("login-form");
+    const contribute = queries.getByTestId("contribute-form");
+
+    expect(login).toBeInTheDocument();
+    expect(contribute).toBeInTheDocument();
   });
 });

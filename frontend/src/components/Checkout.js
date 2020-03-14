@@ -23,7 +23,7 @@ export function Checkout({ onCancel }) {
   const enableCheckout = hasCups && stripe;
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} data-testid="contribute-form">
       <Heading>Make a contribution</Heading>
       <Flex flexDirection="column" my={1}>
         <Box>

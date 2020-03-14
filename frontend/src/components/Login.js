@@ -7,7 +7,7 @@ export function Login() {
   return (
     <Flex flexDirection="column" my={1}>
       <Heading>Log in</Heading>
-      <form>
+      <form data-testid="login-form">
         <Box my={2} sx={{ "> input": { margin: 2 } }}>
           <Label htmlFor="email" fontSize={3}>
             Email
