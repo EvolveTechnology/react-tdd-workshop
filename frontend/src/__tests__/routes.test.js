@@ -63,3 +63,8 @@ describe("Layout elements", () => {
     expect(contributorsTitle).toBeInTheDocument();
   });
 });
+
+describe("Login Route", () => {
+  // on landing page, clicking on Navbar login link, should load login form route
+  expect(true).toBe(false);
+});

@@ -5,7 +5,7 @@ import { Input, Label } from "@rebass/forms";
 
 export function Login() {
   return (
-    <Flex flexDirection="column" my={1}>
+    <Flex flexDirection="column" my={1} alignItems="center">
       <Heading>Log in</Heading>
       <form data-testid="login-form">
         <Box my={2} sx={{ "> input": { margin: 2 } }}>
