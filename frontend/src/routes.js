@@ -14,7 +14,7 @@ import { Navbar } from "components/Navbar";
 import client from "client";
 
 import Landing from "containers/Landing";
-import { LoginForm } from "components/LoginForm";
+import Login from "containers/Login";
 
 const Routes = () => (
   <BrowserRouter>
@@ -24,7 +24,7 @@ const Routes = () => (
         <Container>
           <Navbar />
           <Switch>
-            <Route exact path="/login" component={LoginForm} />
+            <Route exact path="/login" component={Login} />
             <Route path="/" component={Landing} />
           </Switch>
           <Footer />
