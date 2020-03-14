@@ -1,3 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Credit style 1`] = `"<div font-size=\\"2\\" class=\\"sc-AxjAm sc-AxirZ bsLIVh\\"><a href=\\"https://icons8.com/\\" rel=\\"noopener noreferrer\\" style=\\"text-decoration: underline;\\" class=\\"sc-AxjAm gWKrNW\\">Icons thanks to Icons8</a></div>"`;
+exports[`Credit style 1`] = `"<div class=\\"sc-AxjAm sc-AxirZ coteZM\\"><img src=\\"debit_card.png\\" class=\\"sc-AxjAm fFIAuE\\"><img src=\\"coffee_to_go.png\\" class=\\"sc-AxjAm fFIAuE\\"><img src=\\"react_logo.png\\" width=\\"64px\\" class=\\"sc-AxjAm cfWTjF\\"></div><div font-size=\\"2\\" class=\\"sc-AxjAm sc-AxirZ bsLIVh\\"><a href=\\"https://icons8.com/\\" rel=\\"noopener noreferrer\\" style=\\"text-decoration: underline;\\" class=\\"sc-AxjAm gWKrNW\\">Icons thanks to Icons8</a></div>"`;
