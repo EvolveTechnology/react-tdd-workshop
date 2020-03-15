@@ -3,7 +3,9 @@ import React from "react";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 
-import Routes from "routes";
+import { Router } from "react-router-dom";
+import { createMemoryHistory } from "history";
+import { App, Root } from "routes";
 
 import { act } from "react-dom/test-utils";
 
@@ -22,7 +24,7 @@ describe("External services", () => {
       const stripePromise = loadStripe("key", mockCreateElement);
       queries = await render(
         <Elements stripe={stripePromise}>
-          <Routes />
+          <Root />
         </Elements>
       );
     });
@@ -49,7 +51,7 @@ describe("Layout elements", () => {
     await act(async () => {
       queries = await render(
         <Elements stripe={stripePromise}>
-          <Routes />
+          <Root />
         </Elements>
       );
     });
@@ -73,7 +75,7 @@ describe("Login Route", () => {
 
   beforeAll(async () => {
     await act(async () => {
-      queries = await render(<Routes />);
+      queries = await render(<Root />);
     });
   });
 
@@ -124,7 +126,7 @@ describe("SignUp Route", () => {
 
   beforeAll(async () => {
     await act(async () => {
-      queries = await render(<Routes />);
+      queries = await render(<Root />);
     });
   });
 
@@ -175,7 +177,7 @@ describe("Request Reset Route", () => {
 
   beforeAll(async () => {
     await act(async () => {
-      queries = await render(<Routes />);
+      queries = await render(<Root />);
     });
   });
 
@@ -212,10 +214,15 @@ describe("Request Reset Route", () => {
 
 describe("Reset password Route", () => {
   let queries;
+  const history = createMemoryHistory({ initialEntries: ["/reset"] });
 
   beforeAll(async () => {
     await act(async () => {
-      queries = await render(<Routes />);
+      queries = await render(
+        <Router history={history}>
+          <App />
+        </Router>
+      );
     });
   });
 

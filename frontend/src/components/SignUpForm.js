@@ -1,15 +1,25 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
-import { Box, Flex, Heading, Text } from "rebass/styled-components";
+import { Box, Flex, Heading } from "rebass/styled-components";
 
 import { Input, Label } from "@rebass/forms";
 
-export function LoginForm() {
+export function SignUpForm() {
   return (
     <Flex flexDirection="column" my={1} alignItems="center">
-      <Heading>Log in</Heading>
-      <form data-testid="login-form">
+      <Heading>Sign Up</Heading>
+      <form data-testid="signup-form">
         <Box my={2} sx={{ "> input": { margin: 2 } }}>
+          <Label htmlFor="name" fontSize={3}>
+            Name
+          </Label>
+          <Input
+            id="name"
+            name="name"
+            type="text"
+            placeholder="Your name"
+            fontSize={2}
+            maxWidth="300px"
+          />
           <Label htmlFor="email" fontSize={3}>
             Email
           </Label>
@@ -36,16 +46,6 @@ export function LoginForm() {
           />
         </Box>
       </form>
-      <Text
-        my={1}
-        fontSize={2}
-        textAlign="center"
-        style={{ textDecoration: "underline" }}
-      >
-        <NavLink to="/request" data-testid="request-reset">
-          forgot password
-        </NavLink>
-      </Text>
     </Flex>
   );
 }
