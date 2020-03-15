@@ -47,7 +47,7 @@ export function ContributionCard({ id, message, qty, user: { name } }) {
               borderRadius: 9999
             }}
           >
-            <p>{qty}</p>
+            <p>+{qty}</p>
             <Image src={CoffeeToGo} width="44px" />
           </Box>
         </Flex>

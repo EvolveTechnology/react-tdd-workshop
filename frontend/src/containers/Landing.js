@@ -4,17 +4,24 @@ import { Flex, Heading } from "rebass/styled-components";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 
+import { useQuery } from "@apollo/react-hooks";
+
 import { Dialog } from "components/Dialog";
 import { ContributionCard } from "components/ContributionCard";
 import { Header } from "components/Header";
 
 import "@reach/dialog/styles.css";
+
 import { stripeOptions } from "helpers/constants";
+
+import { PUBLIC_CONTRIBUTIONS } from "graphql/queries";
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
 
 function Landing() {
-  const contributions = [];
+  const { data } = useQuery(PUBLIC_CONTRIBUTIONS);
+  const contributions = data?.publicContributions || [];
+
   return (
     <>
       <Flex px={2} py={4} alignItems="center" flexDirection="column">
@@ -38,7 +45,7 @@ function Landing() {
 
       <Flex justifyContent="center" alignItems="center" flexDirection="column">
         {contributions.map(contribution => (
-          <ContributionCard key={contributions.id} {...contribution} />
+          <ContributionCard key={contribution.id} {...contribution} />
         ))}
       </Flex>
     </>
