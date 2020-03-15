@@ -11,27 +11,19 @@ import { Container } from "components/Container";
 import { Footer } from "components/Footer";
 import { Navbar } from "components/Navbar";
 
-import client from "client";
+import apolloClient from "apolloClient";
 
 import Landing from "containers/Landing";
-import SignUp from "containers/SignUp";
-import Request from "containers/Request";
-import Reset from "containers/Reset";
 
-const LazyLogin = React.lazy(() =>
-  import(/* webpackChunkName:"login"*/ "./containers/Login")
-);
-
-function SuspenseLogin(props) {
-  return (
-    <React.Suspense fallback={null}>
-      <LazyLogin {...props} />
-    </React.Suspense>
-  );
-}
+import {
+  SuspenseLogin,
+  SuspenseSignUp,
+  SuspenseRequest,
+  SuspenseReset
+} from "loadables";
 
 export const App = () => (
-  <ApolloProvider client={client}>
+  <ApolloProvider client={apolloClient}>
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <Container>
@@ -39,9 +31,9 @@ export const App = () => (
         <Switch>
           <Route exact path="/" component={Landing} />
           <Route exact path="/login" component={SuspenseLogin} />
-          <Route exact path="/signup" component={SignUp} />
-          <Route exact path="/request" component={Request} />
-          <Route exact path="/reset" component={Reset} />
+          <Route exact path="/signup" component={SuspenseSignUp} />
+          <Route exact path="/request" component={SuspenseRequest} />
+          <Route exact path="/reset" component={SuspenseReset} />
         </Switch>
         <Footer />
       </Container>
