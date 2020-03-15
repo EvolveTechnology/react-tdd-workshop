@@ -28,6 +28,7 @@ query allContribs {
 
 query publicContribs {
   publicContributions{
+  	id
    	user {
       name
     }
@@ -38,6 +39,7 @@ query publicContribs {
 
 query myContribs {
   myContributions{
+  	id
     user {
       name
     }
@@ -49,6 +51,8 @@ query myContribs {
 
 query identity {
   whoAmI{
+  	id
+	  name
     email
     permissions
   }
@@ -65,6 +69,7 @@ mutation createUser{
   	signUp(email:"example@email.com", password:"password", name:"Username"){
     id
     name
+	  permissions
   }
 }
 
@@ -72,11 +77,13 @@ mutation signIn{
   signIn(email:"example@email.com", password:"password"){
     id
     name
+	  permissions
   }
 }
 
 mutation adminSignIn {
   signIn(email:"your@admin.com", password:"admin_password"){
+  	id
     name
     permissions
   }
@@ -90,6 +97,7 @@ mutation signOut{
 
 mutation createPrivateContrib {
   createContribution(private:true, qty:2, message:"Private Contribution", token:"token"){
+	  seen
     qty
     id
   }
@@ -97,6 +105,7 @@ mutation createPrivateContrib {
 
 mutation createPublicContrib {
   createContribution(qty:10, message:"Public Contribution", token:"token"){
+  	seen
     qty
     id
   }
@@ -152,4 +161,3 @@ Using only these, and following the TDD paradigm, finish building your `Buy me a
 ## Credit
 
 The icons used in the front end project come from [icons8](https://icons8.com/). Check them out!
-
