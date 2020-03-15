@@ -5,6 +5,7 @@ import { Box, Flex, Text } from "rebass/styled-components";
 export function Navbar() {
   const { pathname } = useLocation();
   const isLogin = pathname.includes("login");
+  const isSignUp = pathname.includes("signup");
 
   return (
     <Flex
@@ -22,9 +23,16 @@ export function Navbar() {
       </Text>
       <Box mx="auto" />
       {!isLogin && (
-        <Text variant="nav" fontSize={3} fontWeight="bold">
+        <Text variant="nav" fontSize={3} fontWeight="bold" mx={2}>
           <NavLink to="/login" data-testid="login">
             Log In
+          </NavLink>
+        </Text>
+      )}
+      {!isSignUp && (
+        <Text variant="nav" fontSize={3} fontWeight="bold" mx={2}>
+          <NavLink to="/signup" data-testid="signup">
+            Sign Up
           </NavLink>
         </Text>
       )}

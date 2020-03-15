@@ -1,12 +1,12 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { Text } from "rebass/styled-components";
-import { LoginForm } from "components/LoginForm";
+import { ResetForm } from "components/ResetForm";
 
-export function Login() {
+export function Reset() {
   return (
     <>
-      <LoginForm />
+      <ResetForm />
       <Text
         variant="nav"
         my={4}
@@ -15,7 +15,7 @@ export function Login() {
         textAlign="center"
         style={{ textDecoration: "underline" }}
       >
-        <NavLink to="/" data-testid="back-home">
+        <NavLink to="/" data-testid="reset-back-home">
           Back
         </NavLink>
       </Text>
@@ -23,4 +23,4 @@ export function Login() {
   );
 }
 
-export default Login;
+export default Reset;

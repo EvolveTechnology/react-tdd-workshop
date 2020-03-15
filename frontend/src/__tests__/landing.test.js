@@ -3,10 +3,13 @@ import React from "react";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 
+import { Router } from "react-router-dom";
+import { createMemoryHistory } from "history";
+
 import Landing from "containers/Landing";
 import { act } from "react-dom/test-utils";
 
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, cleanup } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 
 // But the better solution is to write fewer, longer tests: https://kentcdodds.com/blog/write-fewer-longer-tests
@@ -18,12 +21,16 @@ describe("Donate click", () => {
     const stripePromise = loadStripe("key");
     await act(async () => {
       queries = await render(
-        <Elements stripe={stripePromise}>
-          <Landing />
-        </Elements>
+        <Router history={createMemoryHistory()}>
+          <Elements stripe={stripePromise}>
+            <Landing />
+          </Elements>
+        </Router>
       );
     });
   });
+
+  afterAll(cleanup);
 
   it("Opens Dialog with login/checkout, which can be cancelled", async () => {
     const donateBtn = queries.getByTestId("donate-button");
