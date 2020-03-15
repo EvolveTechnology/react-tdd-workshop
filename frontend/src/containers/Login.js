@@ -6,7 +6,7 @@ import { LoginForm } from "components/LoginForm";
 export function Login() {
   return (
     <>
-      <LoginForm />
+      <LoginForm onSuccess={console.log} onError={console.log} />
       <Text
         variant="nav"
         my={4}
@@ -16,7 +16,7 @@ export function Login() {
         style={{ textDecoration: "underline" }}
       >
         <NavLink to="/" data-testid="back-home">
-          Back
+          Home
         </NavLink>
       </Text>
     </>

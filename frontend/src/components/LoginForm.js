@@ -1,15 +1,27 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { Box, Flex, Heading, Text } from "rebass/styled-components";
+import { Box, Button, Flex, Heading, Text } from "rebass/styled-components";
 
 import { Input, Label } from "@rebass/forms";
 
-export function LoginForm() {
+export function LoginForm({ onSuccess, onError }) {
+  const emailRef = React.useRef();
+  const passwordRef = React.useRef();
+
+  const handleSubmit = e => {
+    e.preventDefault();
+
+    return onSuccess({
+      email: emailRef.current.value,
+      password: passwordRef.current.value
+    });
+  };
+
   return (
     <Flex flexDirection="column" my={1} alignItems="center">
       <Heading>Log in</Heading>
-      <form data-testid="login-form">
-        <Box my={2} sx={{ "> input": { margin: 2 } }}>
+      <Box my={2} sx={{ "> form > *": { margin: "0.5em 0" } }}>
+        <form data-testid="login-form" onSubmit={handleSubmit}>
           <Label htmlFor="email" fontSize={3}>
             Email
           </Label>
@@ -21,6 +33,8 @@ export function LoginForm() {
             fontSize={2}
             maxWidth="300px"
             autoComplete="email"
+            ref={emailRef}
+            data-testid="login-email"
           />
           <Label htmlFor="password" fontSize={3}>
             Password
@@ -33,9 +47,14 @@ export function LoginForm() {
             maxWidth="300px"
             placeholder="password"
             autoComplete="current-password"
+            data-testid="login-password"
+            ref={passwordRef}
           />
-        </Box>
-      </form>
+          <Button type="submit" width="100%" color="black" data-testid="submit-login">
+            Login
+          </Button>
+        </form>
+      </Box>
       <Text
         my={1}
         fontSize={2}

@@ -5,7 +5,7 @@ import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 
 import CoffeeCupWithSmile from "assets/coffee_cup_with_smile.png";
 
-export function Checkout({ onCancel }) {
+export function Checkout({ onSuccess, onError, onCancel }) {
   const [cups, setCups] = React.useState(1);
   const handleSliderChange = e => setCups(e.target.value);
 
@@ -14,9 +14,15 @@ export function Checkout({ onCancel }) {
 
   const handleSubmit = async event => {
     event.preventDefault();
-    const result = await stripe.createToken(elements.getElement(CardElement));
+    const { error, token } = await stripe.createToken(
+      elements.getElement(CardElement)
+    );
 
-    console.log(result);
+    if (error) {
+      return onError(error);
+    }
+
+    return onSuccess({ token, cups });
   };
 
   const hasCups = cups > 0;

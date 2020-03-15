@@ -40,8 +40,12 @@ export function Dialog() {
         data-testid="donate-dialog"
       >
         <Flex flexDirection="column">
-          <LoginForm />
-          <Checkout onCancel={close} />
+          <LoginForm onSuccess={console.log} onError={console.log} />
+          <Checkout
+            onSuccess={console.log}
+            onError={console.log}
+            onCancel={close}
+          />
         </Flex>
       </ReachDialog>
     </>

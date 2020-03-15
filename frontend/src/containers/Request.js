@@ -6,7 +6,7 @@ import { RequestForm } from "components/RequestForm";
 export function Request() {
   return (
     <>
-      <RequestForm />
+      <RequestForm onSuccess={console.log} onError={console.log} />
       <Text
         variant="nav"
         my={4}
@@ -16,7 +16,7 @@ export function Request() {
         style={{ textDecoration: "underline" }}
       >
         <NavLink to="/" data-testid="request-reset-back-home">
-          Back
+          Home
         </NavLink>
       </Text>
     </>
