@@ -10,9 +10,10 @@ import {
 
 import CoffeeToGo from "assets/coffee_to_go.png";
 
-export function ContributionCard() {
+export function ContributionCard({ id, message, qty, user: { name } }) {
   return (
     <Card
+      id={id}
       bg="muted"
       color="highlight"
       my={2}
@@ -26,10 +27,10 @@ export function ContributionCard() {
       <Flex justifyContent="space-around">
         <Flex flex={4} flexDirection="column" p={1}>
           <Flex>
-            <Heading fontSize={[3, 4]}>Anonymous</Heading>
+            <Heading fontSize={[3, 4]}>{name}</Heading>
           </Flex>
           <Text fontSize={3} as="p" style={{ wordBreak: "break-word" }}>
-            Hi there! Keep up the awesome work!
+            {message}
           </Text>
         </Flex>
 
@@ -46,7 +47,7 @@ export function ContributionCard() {
               borderRadius: 9999
             }}
           >
-            <p>+4</p>
+            <p>{qty}</p>
             <Image src={CoffeeToGo} width="44px" />
           </Box>
         </Flex>
