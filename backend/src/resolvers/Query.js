@@ -21,7 +21,8 @@ const Query = {
     return ctx.db.query.contributions(
       { where: { private: false } },
       `{
-		id
+    id
+    qty
 		message
 		createdAt
 		updatedAt
