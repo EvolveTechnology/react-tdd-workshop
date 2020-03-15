@@ -7,7 +7,7 @@ import Routes from "routes";
 
 import { act } from "react-dom/test-utils";
 
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, cleanup } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 
 // But the better solution is to write fewer, longer tests: https://kentcdodds.com/blog/write-fewer-longer-tests
@@ -27,6 +27,8 @@ describe("External services", () => {
       );
     });
   });
+
+  afterAll(cleanup);
 
   it("Mentions the icon providers and creates stripe element", async () => {
     // async blocks can only be in `it` blocks or `test` blocks
@@ -53,6 +55,8 @@ describe("Layout elements", () => {
     });
   });
 
+  afterAll(cleanup);
+
   it("Has a donate button, navigation bar, and contributors title", () => {
     const donateButton = queries.getByTestId("donate-button");
     const navbar = queries.getByTestId("navbar");
@@ -72,6 +76,8 @@ describe("Login Route", () => {
       queries = await render(<Routes />);
     });
   });
+
+  afterAll(cleanup);
 
   it("is possible to navigate back and forth from login to home", async () => {
     const loginBtn = queries.getByTestId("login");
@@ -110,5 +116,114 @@ describe("Login Route", () => {
 
     expect(queries.getByTestId("login")).toBeInTheDocument();
     expect(queries.getByTestId("donate-button")).toBeInTheDocument();
+  });
+});
+
+describe("SignUp Route", () => {
+  let queries;
+
+  beforeAll(async () => {
+    await act(async () => {
+      queries = await render(<Routes />);
+    });
+  });
+
+  afterAll(cleanup);
+
+  it("is possible to navigate back and forth from signup to home", async () => {
+    const signUp = queries.getByTestId("signup");
+    const homeBtn = queries.getByTestId("home");
+    const donateBtn = queries.getByTestId("donate-button");
+
+    expect(donateBtn).toBeInTheDocument();
+
+    await act(async () => {
+      fireEvent.click(signUp);
+    });
+
+    const signUpForm = queries.getByTestId("signup-form");
+
+    expect(signUpForm).toBeInTheDocument();
+
+    await act(async () => {
+      fireEvent.click(homeBtn);
+    });
+
+    expect(queries.getByTestId("signup")).toBeInTheDocument();
+    expect(signUpForm).not.toBeInTheDocument();
+    expect(queries.getByTestId("donate-button")).toBeInTheDocument();
+
+    act(() => {
+      fireEvent.click(queries.getByTestId("signup"));
+    });
+
+    expect(queries.getByTestId("signup-form")).toBeInTheDocument();
+
+    const backBtn = queries.getByTestId("signup-back-home");
+
+    await act(async () => {
+      fireEvent.click(backBtn);
+    });
+
+    expect(queries.getByTestId("signup")).toBeInTheDocument();
+    expect(queries.getByTestId("donate-button")).toBeInTheDocument();
+  });
+});
+
+describe("Request Reset Route", () => {
+  let queries;
+
+  beforeAll(async () => {
+    await act(async () => {
+      queries = await render(<Routes />);
+    });
+  });
+
+  afterAll(cleanup);
+
+  it("is possible to try to log in and request password reset", async () => {
+    const loginBtn = queries.getByTestId("login");
+
+    await act(async () => {
+      fireEvent.click(loginBtn);
+    });
+
+    const requestReset = queries.getByTestId("request-reset");
+
+    expect(requestReset).toBeInTheDocument();
+
+    await act(async () => {
+      fireEvent.click(requestReset);
+    });
+
+    const requestResetForm = queries.getByTestId("request-reset-form");
+
+    expect(requestResetForm).toBeInTheDocument();
+
+    const backBtn = queries.getByTestId("request-reset-back-home");
+
+    await act(async () => {
+      fireEvent.click(backBtn);
+    });
+
+    expect(queries.getByTestId("donate-button")).toBeInTheDocument();
+  });
+});
+
+describe("Reset password Route", () => {
+  let queries;
+
+  beforeAll(async () => {
+    await act(async () => {
+      queries = await render(<Routes />);
+    });
+  });
+
+  afterAll(cleanup);
+
+  it("is possible to land in the /reset route", () => {
+    const resetForm = queries.getByTestId("reset-form");
+
+    expect(resetForm).toBeInTheDocument();
   });
 });
