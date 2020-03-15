@@ -153,9 +153,34 @@ describe("Request Reset Route", () => {
   });
 });
 
-describe("Reset password Route", () => {
+describe("Reset password Route, without token", () => {
   let queries;
   const history = createMemoryHistory({ initialEntries: ["/reset"] });
+
+  beforeAll(async () => {
+    await act(async () => {
+      queries = await render(
+        <Router history={history}>
+          <App />
+        </Router>
+      );
+    });
+  });
+
+  afterAll(cleanup);
+
+  it("is possible to land in the /reset route", () => {
+    const resetForm = queries.getByTestId("missing-token-message");
+
+    expect(resetForm).toBeInTheDocument();
+  });
+});
+
+describe("Reset password Route, with token", () => {
+  let queries;
+  const history = createMemoryHistory({
+    initialEntries: ["/reset?resetToken=sakdjskajld"]
+  });
 
   beforeAll(async () => {
     await act(async () => {
