@@ -9,20 +9,12 @@ import { ContributionCard } from "components/ContributionCard";
 import { Header } from "components/Header";
 
 import "@reach/dialog/styles.css";
+import { stripeOptions } from "helpers/constants";
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
-const stripeOptions = {
-  fonts: [
-    {
-      family: "Inconsolata",
-      src:
-        "url('https://fonts.gstatic.com/s/inconsolata/v18/QldKNThLqRwH-OJ1UHjlKGlZ5qg.woff2') format('woff2')",
-      style: "normal"
-    }
-  ]
-};
 
 function Landing() {
+  const contributions = [];
   return (
     <>
       <Flex px={2} py={4} alignItems="center" flexDirection="column">
@@ -45,9 +37,9 @@ function Landing() {
       </Flex>
 
       <Flex justifyContent="center" alignItems="center" flexDirection="column">
-        <ContributionCard />
-        <ContributionCard />
-        <ContributionCard />
+        {contributions.map(contribution => (
+          <ContributionCard key={contributions.id} {...contribution} />
+        ))}
       </Flex>
     </>
   );

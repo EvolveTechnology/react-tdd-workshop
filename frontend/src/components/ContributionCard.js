@@ -21,6 +21,7 @@ export function ContributionCard() {
       maxWidth="575px"
       borderRadius={8}
       sx={{ width: [320, 375, 425, 600], borderRadius: 8 }}
+      data-testid="contribution-card"
     >
       <Flex justifyContent="space-around">
         <Flex flex={4} flexDirection="column" p={1}>
