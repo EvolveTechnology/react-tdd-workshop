@@ -3,14 +3,17 @@ import React from "react";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 
+import { ApolloProvider } from "@apollo/react-hooks";
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
 
-import Landing from "containers/Landing";
 import { act } from "react-dom/test-utils";
 
-import { render, fireEvent, cleanup } from "@testing-library/react";
+import { render, fireEvent, cleanup, wait } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
+
+import Landing from "containers/Landing";
+import apolloClient from "apolloClient";
 
 // But the better solution is to write fewer, longer tests: https://kentcdodds.com/blog/write-fewer-longer-tests
 
@@ -21,11 +24,13 @@ describe("Donate click", () => {
     const stripePromise = loadStripe("key");
     await act(async () => {
       queries = await render(
-        <Router history={createMemoryHistory()}>
-          <Elements stripe={stripePromise}>
-            <Landing />
-          </Elements>
-        </Router>
+        <ApolloProvider client={apolloClient}>
+          <Router history={createMemoryHistory()}>
+            <Elements stripe={stripePromise}>
+              <Landing />
+            </Elements>
+          </Router>
+        </ApolloProvider>
       );
     });
   });
@@ -56,5 +61,9 @@ describe("Donate click", () => {
     // on closing
     expect(login).not.toBeInTheDocument();
     expect(contribute).not.toBeInTheDocument();
+
+    await wait(() => {
+      expect(queries.getAllByTestId("contribution-card")).toHaveLength(2);
+    });
   });
 });

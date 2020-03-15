@@ -28,7 +28,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --testURL=http://localhost:3000",
     "test:coverage": "react-scripts test --coverage --watchAll=false",
     "test:ci": "CI=true yarn test",
     "eject": "react-scripts eject"
