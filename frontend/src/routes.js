@@ -23,26 +23,26 @@ import {
 } from "loadables";
 
 export const App = () => (
-  <ApolloProvider client={apolloClient}>
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      <Container>
-        <Navbar />
-        <Switch>
-          <Route exact path="/" component={Landing} />
-          <Route exact path="/login" component={SuspenseLogin} />
-          <Route exact path="/signup" component={SuspenseSignUp} />
-          <Route exact path="/request" component={SuspenseRequest} />
-          <Route exact path="/reset" component={SuspenseReset} />
-        </Switch>
-        <Footer />
-      </Container>
-    </ThemeProvider>
-  </ApolloProvider>
+  <ThemeProvider theme={theme}>
+    <GlobalStyle />
+    <Container>
+      <Navbar />
+      <Switch>
+        <Route exact path="/" component={Landing} />
+        <Route exact path="/login" component={SuspenseLogin} />
+        <Route exact path="/signup" component={SuspenseSignUp} />
+        <Route exact path="/request" component={SuspenseRequest} />
+        <Route exact path="/reset" component={SuspenseReset} />
+      </Switch>
+      <Footer />
+    </Container>
+  </ThemeProvider>
 );
 
 export const Root = () => (
   <BrowserRouter>
-    <App />
+    <ApolloProvider client={apolloClient}>
+      <App />
+    </ApolloProvider>
   </BrowserRouter>
 );
