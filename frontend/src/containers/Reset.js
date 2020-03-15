@@ -6,7 +6,7 @@ import { ResetForm } from "components/ResetForm";
 export function Reset() {
   return (
     <>
-      <ResetForm />
+      <ResetForm onSuccess={console.log} onError={console.log} />
       <Text
         variant="nav"
         my={4}
@@ -16,7 +16,7 @@ export function Reset() {
         style={{ textDecoration: "underline" }}
       >
         <NavLink to="/" data-testid="reset-back-home">
-          Back
+          Home
         </NavLink>
       </Text>
     </>

@@ -6,7 +6,7 @@ import { SignUpForm } from "components/SignUpForm";
 export function SignUp() {
   return (
     <>
-      <SignUpForm />
+      <SignUpForm onSuccess={console.log} onError={console.log} />
       <Text
         variant="nav"
         my={4}
@@ -16,7 +16,7 @@ export function SignUp() {
         style={{ textDecoration: "underline" }}
       >
         <NavLink to="/" data-testid="signup-back-home">
-          Back
+          Home
         </NavLink>
       </Text>
     </>
