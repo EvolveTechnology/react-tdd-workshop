@@ -1,8 +1,5 @@
 import React from "react";
 
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
-
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
 import { MockedProvider } from "@apollo/react-testing";
@@ -18,8 +15,6 @@ import { IDENTITY, PUBLIC_CONTRIBUTIONS } from "graphql/queries";
 
 test("Donate click when identity is unknown", async () => {
   let queries;
-
-  const stripePromise = loadStripe("key");
 
   await act(async () => {
     queries = await render(
@@ -64,9 +59,7 @@ test("Donate click when identity is unknown", async () => {
           addTypename={false}
         >
           <AuthProvider>
-            <Elements stripe={stripePromise}>
-              <Landing />
-            </Elements>
+            <Landing />
           </AuthProvider>
         </MockedProvider>
       </Router>
@@ -112,8 +105,6 @@ test("Donate click when identity is unknown", async () => {
 
 test("Donate click when already logged in", async () => {
   let queries;
-
-  const stripePromise = loadStripe("key");
 
   await act(async () => {
     queries = await render(
@@ -170,9 +161,7 @@ test("Donate click when already logged in", async () => {
           addTypename={false}
         >
           <AuthProvider>
-            <Elements stripe={stripePromise}>
-              <Landing />
-            </Elements>
+            <Landing />
           </AuthProvider>
         </MockedProvider>
       </Router>
