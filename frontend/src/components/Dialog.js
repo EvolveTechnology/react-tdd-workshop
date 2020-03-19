@@ -5,6 +5,7 @@ import { Dialog as ReachDialog } from "@reach/dialog";
 
 import { Checkout } from "components/Checkout";
 import { LoginForm } from "components/LoginForm";
+import { WithoutIdentity, Private } from "providers/Auth";
 
 import CoffeeCup from "assets/coffee_cup.png";
 
@@ -40,12 +41,16 @@ export function Dialog() {
         data-testid="donate-dialog"
       >
         <Flex flexDirection="column">
-          <LoginForm onSuccess={console.log} onError={console.log} />
-          <Checkout
-            onSuccess={console.log}
-            onError={console.log}
-            onCancel={close}
-          />
+          <WithoutIdentity>
+            <LoginForm onSuccess={console.log} onError={console.log} />
+          </WithoutIdentity>
+          <Private>
+            <Checkout
+              onSuccess={console.log}
+              onError={console.log}
+              onCancel={close}
+            />
+          </Private>
         </Flex>
       </ReachDialog>
     </>
