@@ -47,8 +47,7 @@ function App() {
 
   return (
     <Box
-      width="90%"
-      minWidth="768px"
+      width={["100%", "90%"]}
       maxWidth="1024px"
       margin="0 auto"
       bg="background"
@@ -96,7 +95,7 @@ function App() {
       <Dialog aria-label="Donate" isOpen={showDialog} onDismiss={close}>
         <Flex flexDirection="column">
           <Flex flexDirection="column" my={1}>
-            <Heading color="black">Log in</Heading>
+            <Heading>Log in</Heading>
             <form>
               <Box my={2} sx={{ "> input": { margin: 2 } }}>
                 <Label htmlFor="email" fontSize={3}>
@@ -127,7 +126,7 @@ function App() {
             </form>
           </Flex>
           <form onSubmit={handleSubmit}>
-            <Heading color="black">Make a contribution</Heading>
+            <Heading>Make a contribution</Heading>
             <Flex flexDirection="column" my={1}>
               <Box>
                 <Label htmlFor="percent" fontSize={3}>
