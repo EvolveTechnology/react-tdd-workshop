@@ -28,7 +28,8 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-      background: ${({ theme: { colors } }) => colors.muted}
+      background: ${({ theme: { colors } }) => colors.muted};
+      color:${({ theme: { colors } }) => colors.text};
   }
 
   *::-webkit-scrollbar {
