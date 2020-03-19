@@ -3,67 +3,215 @@ import React from "react";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 
-import { ApolloProvider } from "@apollo/react-hooks";
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
+import { MockedProvider } from "@apollo/react-testing";
 
 import { act } from "react-dom/test-utils";
 
-import { render, fireEvent, cleanup, wait } from "@testing-library/react";
+import { render, fireEvent, wait } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 
 import Landing from "containers/Landing";
-import apolloClient from "apolloClient";
+import { AuthProvider } from "providers/Auth";
+import { IDENTITY, PUBLIC_CONTRIBUTIONS } from "graphql/queries";
 
-// But the better solution is to write fewer, longer tests: https://kentcdodds.com/blog/write-fewer-longer-tests
-
-describe("Donate click", () => {
+test("Donate click when identity is unknown", async () => {
   let queries;
 
-  beforeAll(async () => {
-    const stripePromise = loadStripe("key");
-    await act(async () => {
-      queries = await render(
-        <ApolloProvider client={apolloClient}>
-          <Router history={createMemoryHistory()}>
+  const stripePromise = loadStripe("key");
+
+  await act(async () => {
+    queries = await render(
+      <Router history={createMemoryHistory({ initialEntries: ["/"] })}>
+        <MockedProvider
+          mocks={[
+            {
+              request: {
+                query: PUBLIC_CONTRIBUTIONS
+              },
+              result: {
+                data: {
+                  publicContributions: [
+                    {
+                      updatedAt: "2020-03-12T17:10:55.553Z",
+                      seen: false,
+                      id: "ck7m16q36uui90950k17msxoz",
+                      qty: 10,
+                      createdAt: "2020-03-10T15:10:07.506Z",
+                      message: "nice message",
+                      user: {
+                        name: "test subject"
+                      }
+                    },
+                    {
+                      updatedAt: "2020-03-12T17:11:02.093Z",
+                      seen: false,
+                      id: "ck7m1iu1rerf80986odx6mjon",
+                      qty: 100,
+                      createdAt: "2020-03-10T15:19:32.511Z",
+                      message: "hi again",
+                      user: {
+                        name: "test subject"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            { request: { query: IDENTITY }, result: { data: { whoAmI: null } } }
+          ]}
+          addTypename={false}
+        >
+          <AuthProvider>
             <Elements stripe={stripePromise}>
               <Landing />
             </Elements>
-          </Router>
-        </ApolloProvider>
-      );
+          </AuthProvider>
+        </MockedProvider>
+      </Router>
+    );
+  });
+
+  let donateBtn;
+  let dialog;
+
+  await wait(() => {
+    donateBtn = queries.getByTestId("donate-button");
+    expect(donateBtn).toBeInTheDocument();
+  });
+
+  await act(async () => {
+    fireEvent.click(donateBtn);
+  });
+
+  await wait(() => {
+    dialog = queries.getByTestId("donate-dialog");
+    expect(dialog).toBeInTheDocument();
+
+    expect(queries.getByTestId("login-form")).toBeInTheDocument();
+  });
+
+  await act(async () => {
+    fireEvent.keyDown(dialog, {
+      key: "Escape",
+      code: 27,
+      charCode: 27
     });
   });
 
-  afterAll(cleanup);
+  // on closing
+  await wait(() => {
+    expect(queries.queryByTestId("login-form")).toBe(null);
+  });
 
-  it("Opens Dialog with login/checkout, which can be cancelled", async () => {
-    const donateBtn = queries.getByTestId("donate-button");
+  await wait(() => {
+    expect(queries.getAllByTestId("contribution-card")).toHaveLength(2);
+  });
+});
 
+test("Donate click when already logged in", async () => {
+  let queries;
+
+  const stripePromise = loadStripe("key");
+
+  await act(async () => {
+    queries = await render(
+      <Router history={createMemoryHistory()}>
+        <MockedProvider
+          mocks={[
+            {
+              request: {
+                query: PUBLIC_CONTRIBUTIONS
+              },
+              result: {
+                data: {
+                  publicContributions: [
+                    {
+                      updatedAt: "2020-03-12T17:10:55.553Z",
+                      seen: false,
+                      id: "ck7m16q36uui90950k17msxoz",
+                      qty: 10,
+                      createdAt: "2020-03-10T15:10:07.506Z",
+                      message: "nice message",
+                      user: {
+                        name: "test subject"
+                      }
+                    },
+                    {
+                      updatedAt: "2020-03-12T17:11:02.093Z",
+                      seen: false,
+                      id: "ck7m1iu1rerf80986odx6mjon",
+                      qty: 100,
+                      createdAt: "2020-03-10T15:19:32.511Z",
+                      message: "hi again",
+                      user: {
+                        name: "test subject"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              request: { query: IDENTITY },
+              result: {
+                data: {
+                  whoAmI: {
+                    id: "hshs",
+                    name: "jsos",
+                    email: "sss",
+                    permissions: ["USER"]
+                  }
+                }
+              }
+            }
+          ]}
+          addTypename={false}
+        >
+          <AuthProvider>
+            <Elements stripe={stripePromise}>
+              <Landing />
+            </Elements>
+          </AuthProvider>
+        </MockedProvider>
+      </Router>
+    );
+  });
+
+  let donateBtn;
+  let dialog;
+  let cancelBtn;
+
+  await wait(() => {
+    donateBtn = queries.getByTestId("donate-button");
     expect(donateBtn).toBeInTheDocument();
+  });
 
+  act(() => {
     fireEvent.click(donateBtn);
+  });
 
-    const dialog = queries.getByTestId("donate-dialog");
-
+  await wait(() => {
+    dialog = queries.getByTestId("donate-dialog");
     expect(dialog).toBeInTheDocument();
+  });
 
-    const login = queries.getByTestId("login-form");
-    const contribute = queries.getByTestId("contribute-form");
+  await wait(() => {
+    cancelBtn = queries.getByTestId("cancel-checkout");
+    expect(queries.getByTestId("contribute-form")).toBeInTheDocument();
+  });
 
-    expect(login).toBeInTheDocument();
-    expect(contribute).toBeInTheDocument();
-
-    const cancelBtn = queries.getByTestId("cancel-checkout");
-
+  act(() => {
     fireEvent.click(cancelBtn);
+  });
 
-    // on closing
-    expect(login).not.toBeInTheDocument();
-    expect(contribute).not.toBeInTheDocument();
+  // on closing
+  await wait(() => {
+    expect(queries.queryByTestId("contribute-form")).toBe(null);
+  });
 
-    await wait(() => {
-      expect(queries.getAllByTestId("contribution-card")).toHaveLength(2);
-    });
+  await wait(() => {
+    expect(queries.getAllByTestId("contribution-card")).toHaveLength(2);
   });
 });
