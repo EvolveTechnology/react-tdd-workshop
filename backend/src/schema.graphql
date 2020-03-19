@@ -10,8 +10,8 @@ type Mutation {
     message: String
     token: String!
     private: Boolean
-  ): Contribution!
-  updateSeen(id: ID!): Contribution!
+  ): ContributionDetails!
+  updateSeen(id: ID!): ContributionDetails!
   signUp(email: String!, password: String!, name: String!): User!
   signIn(email: String!, password: String!): User!
   signOut: Success
@@ -35,6 +35,7 @@ type ContributionDetails {
   id: ID!
   user: User!
   qty: Int!
+  unitPrice: Int!
   message: String
   createdAt: DateTime
   updatedAt: DateTime
