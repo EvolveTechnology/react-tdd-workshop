@@ -11,10 +11,17 @@ export function LoginForm({ onSuccess, onError }) {
   const handleSubmit = e => {
     e.preventDefault();
 
-    return onSuccess({
-      email: emailRef.current.value,
-      password: passwordRef.current.value
-    });
+    const email = emailRef.current ? emailRef.current.value : "";
+    const password = passwordRef.current ? passwordRef.current.value : "";
+
+    if (email.trim() && password.trim()) {
+      return onSuccess({
+        email: email.trim(),
+        password: password.trim()
+      });
+    }
+
+    return onError({ message: "Invalid User Input" });
   };
 
   return (
@@ -50,7 +57,12 @@ export function LoginForm({ onSuccess, onError }) {
             data-testid="login-password"
             ref={passwordRef}
           />
-          <Button type="submit" width="100%" color="black" data-testid="submit-login">
+          <Button
+            type="submit"
+            width="100%"
+            color="black"
+            data-testid="submit-login"
+          >
             Login
           </Button>
         </form>
