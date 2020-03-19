@@ -20,7 +20,7 @@ const Mutation = {
     const { token, qty, ...rest } = args;
 
     const currency = process.env.CURRENCY;
-    const unitPrice = process.env.COFFEE_PRICE;
+    const unitPrice = parseInt(process.env.COFFEE_PRICE);
     const amount = qty * unitPrice;
 
     await stripe.charges
