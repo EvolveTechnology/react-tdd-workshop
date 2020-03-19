@@ -13,6 +13,7 @@ import { Navbar } from "components/Navbar";
 
 import apolloClient from "apolloClient";
 
+import { AuthProvider } from "providers/Auth";
 import Landing from "containers/Landing";
 
 import {
@@ -26,14 +27,16 @@ export const App = () => (
   <ThemeProvider theme={theme}>
     <GlobalStyle />
     <Container>
-      <Navbar />
-      <Switch>
-        <Route exact path="/" component={Landing} />
-        <Route exact path="/login" component={SuspenseLogin} />
-        <Route exact path="/signup" component={SuspenseSignUp} />
-        <Route exact path="/request" component={SuspenseRequest} />
-        <Route exact path="/reset" component={SuspenseReset} />
-      </Switch>
+      <AuthProvider>
+        <Navbar />
+        <Switch>
+          <Route exact path="/" component={Landing} />
+          <Route exact path="/login" component={SuspenseLogin} />
+          <Route exact path="/signup" component={SuspenseSignUp} />
+          <Route exact path="/request" component={SuspenseRequest} />
+          <Route exact path="/reset" component={SuspenseReset} />
+        </Switch>
+      </AuthProvider>
       <Footer />
     </Container>
   </ThemeProvider>
