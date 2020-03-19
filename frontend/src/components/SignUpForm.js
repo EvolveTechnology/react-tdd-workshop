@@ -1,9 +1,9 @@
 import React from "react";
-import { Box, Button, Flex, Heading } from "rebass/styled-components";
+import { Box, Button, Flex, Heading, Text } from "rebass/styled-components";
 
 import { Input, Label } from "@rebass/forms";
 
-export function SignUpForm({ onSuccess, onError }) {
+export function SignUpForm({ onSuccess, onError, error }) {
   const nameRef = React.useRef();
   const emailRef = React.useRef();
   const passwordRef = React.useRef();
@@ -11,11 +11,19 @@ export function SignUpForm({ onSuccess, onError }) {
   const handleSubmit = e => {
     e.preventDefault();
 
-    return onSuccess({
-      name: nameRef.current.value,
-      email: emailRef.current.value,
-      password: passwordRef.current.value
-    });
+    const name = nameRef.current ? nameRef.current.value : "";
+    const email = emailRef.current ? emailRef.current.value : "";
+    const password = passwordRef.current ? passwordRef.current.value : "";
+
+    if (name.trim() && email.trim() && password.trim()) {
+      return onSuccess({
+        name: name.trim(),
+        email: email.trim(),
+        password: password.trim()
+      });
+    }
+
+    return onError({ message: "Invalid User Input" });
   };
 
   return (
@@ -64,10 +72,20 @@ export function SignUpForm({ onSuccess, onError }) {
             ref={passwordRef}
             data-testid="signup-password"
           />
-          <Button type="submit" width="100%" color="black" data-testid="submit-signup">
+          <Button
+            type="submit"
+            width="100%"
+            color="black"
+            data-testid="submit-signup"
+          >
             Sign Up
           </Button>
         </form>
+        {error && (
+          <Text my={1} justifyContent="flex-end" color="#ff0000">
+            {error.message || "Fatal Error"}
+          </Text>
+        )}
       </Box>
     </Flex>
   );
