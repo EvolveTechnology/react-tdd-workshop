@@ -1,13 +1,15 @@
 import React from "react";
 import { Box, Button, Flex, Heading, Image } from "rebass/styled-components";
-import { Label, Slider } from "@rebass/forms";
+import { Label, Slider, Textarea } from "@rebass/forms";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 
 import CoffeeCupWithSmile from "assets/coffee_cup_with_smile.png";
 
 export function Checkout({ onSuccess, onError, onCancel }) {
   const [cups, setCups] = React.useState(1);
-  const handleSliderChange = e => setCups(e.target.value);
+  const handleSliderChange = e => setCups(parseInt(e.target.value));
+
+  const messageRef = React.useRef();
 
   const stripe = useStripe();
   const elements = useElements();
@@ -19,11 +21,13 @@ export function Checkout({ onSuccess, onError, onCancel }) {
       { currency: "SEK" }
     );
 
+    const message = (messageRef?.current?.value ?? "").trim() || null;
+
     if (error || !token.id) {
       return onError(error);
     }
 
-    return onSuccess({ token: token?.id, cups });
+    return onSuccess({ token: token?.id, cups, message });
   };
 
   const hasCups = cups > 0;
@@ -47,10 +51,24 @@ export function Checkout({ onSuccess, onError, onCancel }) {
             data-testid="coffee-cups-slider"
           />
           <Flex flexWrap="wrap" marginTop={2} marginBottom={1}>
-            {Array.from({ length: cups }, (_, index) => (
-              <Image key={index} src={CoffeeCupWithSmile} />
+            {Array.from({ length: !!cups ? cups : 1 }, (_, index) => (
+              <Image
+                key={index}
+                src={CoffeeCupWithSmile}
+                style={{ opacity: cups ? 1 : 0.5 }}
+              />
             ))}
           </Flex>
+          <Label htmlFor="message" fontSize={3}>
+            Comment (Optional)
+          </Label>
+          <Textarea
+            id="message"
+            name="comment"
+            fontSize={2}
+            ref={messageRef}
+            data-testid="optional-comment"
+          />
         </Box>
         <form onSubmit={handleSubmit} data-testid="contribute-form">
           <Label htmlFor="percent" my={3} fontSize={3}>
@@ -81,7 +99,8 @@ export function Checkout({ onSuccess, onError, onCancel }) {
             marginTop={2}
             disabled={!enableCheckout}
             style={{
-              cursor: enableCheckout ? "pointer" : "not-allowed"
+              cursor: enableCheckout ? "pointer" : "not-allowed",
+              opacity: enableCheckout ? 1 : 0.5
             }}
             data-testid="proceed-checkout"
           >

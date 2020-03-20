@@ -14,6 +14,7 @@ import { CREATE_CONTRIBUTION } from "graphql/mutations";
 
 const token = "stripe_token";
 const qty = 2;
+const message = "Keep up the good work";
 
 const mockCreateContribution = jest.fn(() => ({
   data: {
@@ -88,7 +89,7 @@ const mocks = [
 
 afterEach(() => mockCreateContribution.mockClear());
 
-test(`A logged in user can checkout ${qty} cups of coffee`, async () => {
+test(`A logged in user can checkout ${qty} cups of coffee, without message`, async () => {
   let queries;
 
   await act(async () => {
@@ -199,5 +200,136 @@ test(`A logged in user CANNOT checkout 0 cups of coffee`, async () => {
     expect(checkoutBtn).toBeInTheDocument();
     expect(checkoutBtn.getAttribute("disabled")).not.toBe(null);
     expect(mockCreateContribution).toHaveBeenCalledTimes(0);
+  });
+});
+
+const mocksWithMessage = [
+  {
+    request: {
+      query: IDENTITY
+    },
+    result: {
+      data: {
+        whoAmI: {
+          id: "someId",
+          name: "name",
+          email: "example@email.com",
+          permissions: ["USER"]
+        }
+      }
+    }
+  },
+  {
+    request: {
+      query: PUBLIC_CONTRIBUTIONS
+    },
+    result: {
+      data: {
+        publicContributions: []
+      }
+    }
+  },
+  {
+    request: {
+      query: CREATE_CONTRIBUTION,
+      variables: {
+        qty,
+        message,
+        token,
+        private: false
+      }
+    },
+    result: mockCreateContribution
+  },
+  {
+    request: {
+      query: PUBLIC_CONTRIBUTIONS
+    },
+    result: {
+      data: {
+        publicContributions: [
+          {
+            updatedAt: "2020-03-12T17:10:55.553Z",
+            seen: false,
+            id: "someId",
+            message,
+            qty,
+            createdAt: "2020-03-10T15:10:07.506Z",
+            user: {
+              name: "name"
+            }
+          }
+        ]
+      }
+    }
+  }
+];
+
+test(`A logged user can checkout ${qty} cups of coffe, with message: ${message}`, async () => {
+  let queries;
+
+  await act(async () => {
+    queries = await render(
+      <Router history={createMemoryHistory({ initialEntries: ["/"] })}>
+        <MockedProvider mocks={mocksWithMessage} addTypename={false}>
+          <App />
+        </MockedProvider>
+      </Router>
+    );
+  });
+
+  let donateBtn;
+  let dialog;
+  let checkoutBtn;
+
+  await wait(() => {
+    donateBtn = queries.getByTestId("donate-button");
+    expect(donateBtn).toBeInTheDocument();
+  });
+
+  await act(async () => {
+    fireEvent.click(donateBtn);
+  });
+
+  await wait(() => {
+    dialog = queries.getByTestId("donate-dialog");
+    expect(dialog).toBeInTheDocument();
+  });
+
+  await wait(() => {
+    expect(queries.getByTestId("coffee-cups-slider")).toBeInTheDocument();
+  });
+
+  act(() => {
+    fireEvent.change(queries.getByTestId("coffee-cups-slider"), {
+      target: { value: qty }
+    });
+  });
+
+  act(() => {
+    fireEvent.change(queries.getByTestId("optional-comment"), {
+      target: { value: message }
+    });
+  });
+
+  await wait(() => {
+    checkoutBtn = queries.getByTestId("proceed-checkout");
+    expect(checkoutBtn).toBeInTheDocument();
+  });
+
+  act(() => {
+    fireEvent.click(checkoutBtn);
+  });
+
+  await wait(() => {
+    expect(queries.queryByTestId("donate-dialog")).toBe(null);
+  });
+
+  await wait(() => {
+    expect(queries.getAllByTestId("contribution-card")).toHaveLength(1);
+  });
+
+  await wait(() => {
+    expect(mockCreateContribution).toHaveBeenCalledTimes(1);
   });
 });
