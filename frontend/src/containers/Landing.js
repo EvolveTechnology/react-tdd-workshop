@@ -6,7 +6,7 @@ import { Elements } from "@stripe/react-stripe-js";
 
 import { useQuery } from "@apollo/react-hooks";
 
-import { Dialog } from "components/Dialog";
+import { Dialog } from "containers/Dialog";
 import { ContributionCard } from "components/ContributionCard";
 import { Header } from "components/Header";
 
