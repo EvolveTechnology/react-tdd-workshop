@@ -150,3 +150,54 @@ test(`A logged in user can checkout ${qty} cups of coffee`, async () => {
     expect(mockCreateContribution).toHaveBeenCalledTimes(1);
   });
 });
+
+test(`A logged in user CANNOT checkout 0 cups of coffee`, async () => {
+  let queries;
+
+  await act(async () => {
+    queries = await render(
+      <Router history={createMemoryHistory({ initialEntries: ["/"] })}>
+        <MockedProvider mocks={mocks} addTypename={false}>
+          <App />
+        </MockedProvider>
+      </Router>
+    );
+  });
+
+  let donateBtn;
+  let dialog;
+  let checkoutBtn;
+
+  await wait(() => {
+    donateBtn = queries.getByTestId("donate-button");
+    expect(donateBtn).toBeInTheDocument();
+  });
+
+  await act(async () => {
+    fireEvent.click(donateBtn);
+  });
+
+  await wait(() => {
+    dialog = queries.getByTestId("donate-dialog");
+    expect(dialog).toBeInTheDocument();
+  });
+
+  await wait(() => {
+    checkoutBtn = queries.getByTestId("proceed-checkout");
+    expect(queries.getByTestId("coffee-cups-slider")).toBeInTheDocument();
+    expect(checkoutBtn.getAttribute("disabled")).toBe(null);
+  });
+
+  act(() => {
+    fireEvent.change(queries.getByTestId("coffee-cups-slider"), {
+      target: { value: 0 }
+    });
+  });
+
+  await wait(() => {
+    checkoutBtn = queries.getByTestId("proceed-checkout");
+    expect(checkoutBtn).toBeInTheDocument();
+    expect(checkoutBtn.getAttribute("disabled")).not.toBe(null);
+    expect(mockCreateContribution).toHaveBeenCalledTimes(0);
+  });
+});
