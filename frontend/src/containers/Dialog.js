@@ -1,18 +1,45 @@
 import React from "react";
 import { Button, Flex, Image } from "rebass/styled-components";
-
 import { Dialog as ReachDialog } from "@reach/dialog";
+import { useMutation } from "@apollo/react-hooks";
 
 import { Checkout } from "components/Checkout";
 import { LoginForm } from "components/LoginForm";
 import { WithoutIdentity, Private } from "providers/Auth";
 
 import CoffeeCup from "assets/coffee_cup.png";
+import { CREATE_CONTRIBUTION } from "graphql/mutations";
+import { PUBLIC_CONTRIBUTIONS } from "graphql/queries";
 
 export function Dialog() {
   const [showDialog, setShowDialog] = React.useState(false);
+  const [error, setError] = React.useState(null);
+
   const open = () => setShowDialog(true);
   const close = () => setShowDialog(false);
+
+  const [orderContribution, { loading: orderLoading }] = useMutation(
+    CREATE_CONTRIBUTION,
+    {
+      onCompleted: close,
+      onError: error => setError(error),
+      refetchQueries: [{ query: PUBLIC_CONTRIBUTIONS }]
+    }
+  );
+
+  React.useEffect(() => {
+    if (orderLoading) {
+      setError(null);
+    }
+  }, [orderLoading]);
+
+  const onSuccess = ({ token, cups, message = null, _private = false }) => {
+    orderContribution({
+      variables: { token, qty: parseInt(cups), message, private: _private }
+    });
+  };
+
+  const onError = error => setError(error);
 
   return (
     <>
@@ -46,9 +73,10 @@ export function Dialog() {
           </WithoutIdentity>
           <Private>
             <Checkout
-              onSuccess={console.log}
-              onError={console.log}
+              onSuccess={onSuccess}
+              onError={onError}
               onCancel={close}
+              error={error}
             />
           </Private>
         </Flex>

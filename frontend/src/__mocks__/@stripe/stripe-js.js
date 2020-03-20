@@ -6,6 +6,11 @@ const defaultElements = () => ({
   getElement: noop
 });
 
+const createTokenMock = () =>
+  new Promise(resolve => {
+    return resolve({ token: { id: "stripe_token" }, error: null });
+  });
+
 stripeLib.loadStripe = (...args) =>
   Promise.resolve((...values) => {
     const [
@@ -16,7 +21,7 @@ stripeLib.loadStripe = (...args) =>
     ] = values.slice(1);
     return {
       elements: elements || defaultElements,
-      createToken: createToken || noop,
+      createToken: createToken || createTokenMock,
       createPaymentMethod: createPaymentMethod || noop,
       confirmCardPayment: confirmCardPayment || noop
     };

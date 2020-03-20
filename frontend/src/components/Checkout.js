@@ -15,14 +15,15 @@ export function Checkout({ onSuccess, onError, onCancel }) {
   const handleSubmit = async event => {
     event.preventDefault();
     const { error, token } = await stripe.createToken(
-      elements.getElement(CardElement)
+      elements.getElement(CardElement),
+      { currency: "SEK" }
     );
 
-    if (error) {
+    if (error || !token.id) {
       return onError(error);
     }
 
-    return onSuccess({ token, cups });
+    return onSuccess({ token: token?.id, cups });
   };
 
   const hasCups = cups > 0;
@@ -33,16 +34,17 @@ export function Checkout({ onSuccess, onError, onCancel }) {
       <Heading>Make a contribution</Heading>
       <Flex flexDirection="column" my={1}>
         <Box>
-          <Label htmlFor="percent" fontSize={3}>
+          <Label htmlFor="coffee-cups" fontSize={3}>
             Quantity ({cups})
           </Label>
           <Slider
-            id="percent"
-            name="percent"
+            id="coffee-cups"
+            name="coffee-cups"
             value={cups}
             min={0}
             max={10}
             onChange={handleSliderChange}
+            data-testid="coffee-cups-slider"
           />
           <Flex flexWrap="wrap" marginTop={2} marginBottom={1}>
             {Array.from({ length: cups }, (_, index) => (
@@ -57,6 +59,7 @@ export function Checkout({ onSuccess, onError, onCancel }) {
           <Box maxWidth="400px" margin="0 auto">
             <CardElement
               options={{
+                hidePostalCode: true,
                 style: {
                   base: {
                     fontFamily: "'Inconsolata', monospace",
