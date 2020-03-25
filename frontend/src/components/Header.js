@@ -1,14 +1,19 @@
 import React from "react";
 import { Text } from "rebass/styled-components";
 import { NavLink } from "react-router-dom";
-import { useIdentity } from "providers/Auth";
+import { useIdentity, usePermissions } from "providers/Auth";
 import { useQuery } from "@apollo/react-hooks";
 import { MY_CONTRIBUTIONS } from "graphql/queries";
 
 export function Header() {
   const { id } = useIdentity();
+  const permissions = usePermissions();
+  const isAdmin = permissions.includes("ADMIN") && id;
+  const shouldSkipMyContributions = isAdmin || !id;
 
-  const { data } = useQuery(MY_CONTRIBUTIONS, { skip: !id });
+  const { data } = useQuery(MY_CONTRIBUTIONS, {
+    skip: shouldSkipMyContributions
+  });
 
   const personalContributions = data?.myContributions ?? [];
   const hasPersonalContributions = !!personalContributions.length;
@@ -40,6 +45,20 @@ export function Header() {
         >
           <NavLink to="/mycontributions" data-testid="my-contributions-link">
             And you are one of them!
+          </NavLink>
+        </Text>
+      )}
+      {isAdmin && (
+        <Text
+          color="highlight"
+          variant="nav"
+          fontSize={3}
+          fontWeight="bold"
+          mx={2}
+          style={{ textDecoration: "underline" }}
+        >
+          <NavLink to="/admin" data-testid="admin-link">
+            Admin View
           </NavLink>
         </Text>
       )}
