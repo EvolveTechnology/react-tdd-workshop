@@ -9,7 +9,11 @@ import { MockedProvider } from "@apollo/react-testing";
 import { render, fireEvent, wait } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 
-import { IDENTITY, PUBLIC_CONTRIBUTIONS } from "graphql/queries";
+import {
+  IDENTITY,
+  PUBLIC_CONTRIBUTIONS,
+  MY_CONTRIBUTIONS
+} from "graphql/queries";
 import { CREATE_CONTRIBUTION } from "graphql/mutations";
 
 const token = "stripe_token";
@@ -53,6 +57,16 @@ const mocks = [
   },
   {
     request: {
+      query: MY_CONTRIBUTIONS
+    },
+    result: {
+      data: {
+        myContributions: []
+      }
+    }
+  },
+  {
+    request: {
       query: CREATE_CONTRIBUTION,
       variables: {
         qty,
@@ -75,6 +89,29 @@ const mocks = [
             seen: false,
             id: "someId",
             message: null,
+            qty,
+            createdAt: "2020-03-10T15:10:07.506Z",
+            user: {
+              name: "name"
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    request: {
+      query: MY_CONTRIBUTIONS
+    },
+    result: {
+      data: {
+        myContributions: [
+          {
+            updatedAt: "2020-03-12T17:10:55.553Z",
+            seen: false,
+            id: "someId",
+            message: null,
+            private: false,
             qty,
             createdAt: "2020-03-10T15:10:07.506Z",
             user: {
@@ -231,6 +268,16 @@ const mocksWithMessage = [
   },
   {
     request: {
+      query: MY_CONTRIBUTIONS
+    },
+    result: {
+      data: {
+        myContributions: []
+      }
+    }
+  },
+  {
+    request: {
       query: CREATE_CONTRIBUTION,
       variables: {
         qty,
@@ -253,6 +300,29 @@ const mocksWithMessage = [
             seen: false,
             id: "someId",
             message,
+            qty,
+            createdAt: "2020-03-10T15:10:07.506Z",
+            user: {
+              name: "name"
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    request: {
+      query: MY_CONTRIBUTIONS
+    },
+    result: {
+      data: {
+        myContributions: [
+          {
+            updatedAt: "2020-03-12T17:10:55.553Z",
+            seen: false,
+            id: "someId",
+            message,
+            private: false,
             qty,
             createdAt: "2020-03-10T15:10:07.506Z",
             user: {
