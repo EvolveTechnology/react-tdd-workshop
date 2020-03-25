@@ -9,7 +9,7 @@ import { WithoutIdentity, Private } from "providers/Auth";
 
 import CoffeeCup from "assets/coffee_cup.png";
 import { CREATE_CONTRIBUTION } from "graphql/mutations";
-import { PUBLIC_CONTRIBUTIONS } from "graphql/queries";
+import { PUBLIC_CONTRIBUTIONS, MY_CONTRIBUTIONS } from "graphql/queries";
 
 export function Dialog() {
   const [showDialog, setShowDialog] = React.useState(false);
@@ -23,7 +23,10 @@ export function Dialog() {
     {
       onCompleted: close,
       onError: error => setError(error),
-      refetchQueries: [{ query: PUBLIC_CONTRIBUTIONS }]
+      refetchQueries: [
+        { query: PUBLIC_CONTRIBUTIONS },
+        { query: MY_CONTRIBUTIONS }
+      ]
     }
   );
 
