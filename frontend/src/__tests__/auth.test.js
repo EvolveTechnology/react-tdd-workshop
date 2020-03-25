@@ -11,7 +11,7 @@ import "@testing-library/jest-dom/extend-expect";
 
 import { CREATE_USER, SIGN_OUT, SIGN_IN } from "graphql/mutations";
 
-import { IDENTITY } from "graphql/queries";
+import { IDENTITY, MY_CONTRIBUTIONS } from "graphql/queries";
 
 const mocks = [
   {
@@ -47,6 +47,16 @@ const mocks = [
           email: "example@email.com",
           permissions: ["USER"]
         }
+      }
+    }
+  },
+  {
+    request: {
+      query: MY_CONTRIBUTIONS
+    },
+    result: {
+      data: {
+        myContributions: []
       }
     }
   },
@@ -102,6 +112,26 @@ const mocks = [
           email: "example@email.com",
           permissions: ["USER"]
         }
+      }
+    }
+  },
+  {
+    request: {
+      query: MY_CONTRIBUTIONS
+    },
+    result: {
+      data: {
+        myContributions: []
+      }
+    }
+  },
+  {
+    request: {
+      query: MY_CONTRIBUTIONS
+    },
+    result: {
+      data: {
+        myContributions: []
       }
     }
   },
