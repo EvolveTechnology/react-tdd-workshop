@@ -10,7 +10,13 @@ import {
 
 import CoffeeToGo from "assets/coffee_to_go.png";
 
-export function ContributionCard({ id, message, qty, user: { name } }) {
+export function ContributionCard({
+  id,
+  message,
+  qty,
+  user: { name },
+  testId = "contribution-card"
+}) {
   return (
     <Card
       id={id}
@@ -22,7 +28,7 @@ export function ContributionCard({ id, message, qty, user: { name } }) {
       maxWidth="575px"
       borderRadius={8}
       sx={{ width: [320, 375, 425, 600], borderRadius: 8 }}
-      data-testid="contribution-card"
+      data-testid={testId}
     >
       <Flex justifyContent="space-around">
         <Flex flex={4} flexDirection="column" p={1}>

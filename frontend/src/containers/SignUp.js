@@ -5,7 +5,7 @@ import { SignUpForm } from "components/SignUpForm";
 import { useMutation } from "@apollo/react-hooks";
 import { CREATE_USER } from "graphql/mutations";
 import { useIdentity } from "providers/Auth";
-import { IDENTITY } from "graphql/queries";
+import { IDENTITY, MY_CONTRIBUTIONS } from "graphql/queries";
 
 export function SignUp({ history }) {
   const [error, setError] = React.useState(null);
@@ -13,7 +13,7 @@ export function SignUp({ history }) {
   const [signUp, { loading: createUserLoading }] = useMutation(CREATE_USER, {
     onCompleted: () => history.push("/"),
     onError: error => setError(error),
-    refetchQueries: [{ query: IDENTITY }]
+    refetchQueries: [{ query: IDENTITY }, { query: MY_CONTRIBUTIONS }]
   });
 
   React.useEffect(() => {

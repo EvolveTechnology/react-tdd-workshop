@@ -20,7 +20,8 @@ import {
   SuspenseLogin,
   SuspenseSignUp,
   SuspenseRequest,
-  SuspenseReset
+  SuspenseReset,
+  SuspenseMyContributions
 } from "loadables";
 
 export const App = () => (
@@ -31,6 +32,11 @@ export const App = () => (
         <Navbar />
         <Switch>
           <Route exact path="/" component={Landing} />
+          <Route
+            exact
+            path="/mycontributions"
+            component={SuspenseMyContributions}
+          />
           <Route exact path="/login" component={SuspenseLogin} />
           <Route exact path="/signup" component={SuspenseSignUp} />
           <Route exact path="/request" component={SuspenseRequest} />

@@ -7,15 +7,21 @@ const LazyLogin = React.lazy(() =>
 );
 
 const LazySignUp = React.lazy(() =>
-  import(/* webpackChunkName: "signup"*/ "./containers/SignUp")
+  import(/* webpackChunkName: "signup" */ "./containers/SignUp")
 );
 
 const LazyRequest = React.lazy(() =>
-  import(/* webpackChunkName: "request"*/ "./containers/Request")
+  import(/* webpackChunkName: "request" */ "./containers/Request")
 );
 
 const LazyReset = React.lazy(() =>
-  import(/* webpackChunkName: "reset"*/ "./containers/Reset")
+  import(/* webpackChunkName: "reset" */ "./containers/Reset")
+);
+
+const LazyMyContributions = React.lazy(() =>
+  import(
+    /* webpackChunkName: "mycontributions" */ "./containers/MyContributions"
+  )
 );
 
 export function SuspenseLogin(props) {
@@ -44,6 +50,14 @@ export function SuspenseReset(props) {
   return (
     <React.Suspense fallback={null}>
       <LazyReset {...props} />
+    </React.Suspense>
+  );
+}
+
+export function SuspenseMyContributions(props) {
+  return (
+    <React.Suspense fallback={null}>
+      <LazyMyContributions {...props} />
     </React.Suspense>
   );
 }
