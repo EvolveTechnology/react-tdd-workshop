@@ -24,6 +24,10 @@ const LazyMyContributions = React.lazy(() =>
   )
 );
 
+const LazyAdmin = React.lazy(() =>
+  import(/* webpackChunkName: "admin" */ "./containers/Admin")
+);
+
 export function SuspenseLogin(props) {
   return (
     <React.Suspense fallback={null}>
@@ -58,6 +62,14 @@ export function SuspenseMyContributions(props) {
   return (
     <React.Suspense fallback={null}>
       <LazyMyContributions {...props} />
+    </React.Suspense>
+  );
+}
+
+export function SuspenseAdmin(props) {
+  return (
+    <React.Suspense fallback={null}>
+      <LazyAdmin {...props} />
     </React.Suspense>
   );
 }

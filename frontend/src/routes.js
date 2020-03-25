@@ -21,7 +21,8 @@ import {
   SuspenseSignUp,
   SuspenseRequest,
   SuspenseReset,
-  SuspenseMyContributions
+  SuspenseMyContributions,
+  SuspenseAdmin
 } from "loadables";
 
 export const App = () => (
@@ -41,6 +42,7 @@ export const App = () => (
           <Route exact path="/signup" component={SuspenseSignUp} />
           <Route exact path="/request" component={SuspenseRequest} />
           <Route exact path="/reset" component={SuspenseReset} />
+          <Route exact path="/admin" component={SuspenseAdmin} />
         </Switch>
       </AuthProvider>
       <Footer />
