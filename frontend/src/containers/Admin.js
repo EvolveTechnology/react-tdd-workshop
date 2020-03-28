@@ -1,18 +1,31 @@
 import React from "react";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 import { Redirect } from "react-router-dom";
 import { Flex, Heading, Text } from "rebass/styled-components";
 import { useIdentity, usePermissions } from "providers/Auth";
 import { ALL_CONTRIBUTIONS } from "graphql/queries";
 import { ContributionCard } from "components/ContributionCard";
+import { MARK_AS_SEEN } from "graphql/mutations";
 
 export function Admin() {
-  const { id, name } = useIdentity();
+  const { id, name, loading } = useIdentity();
   const permissions = usePermissions();
 
   const isAdmin = permissions.includes("ADMIN") && id;
 
   const { data } = useQuery(ALL_CONTRIBUTIONS, { skip: !isAdmin });
+
+  const [markAsSeen] = useMutation(MARK_AS_SEEN, {
+    refetchQueries: [{ query: ALL_CONTRIBUTIONS }]
+  });
+
+  const contributionCardClickHandler = id => () => {
+    return markAsSeen({ variables: { id } });
+  };
+
+  if (loading) {
+    return null;
+  }
 
   if (!isAdmin) {
     return <Redirect to="/" />;
@@ -41,7 +54,12 @@ export function Admin() {
 
       <Flex justifyContent="center" alignItems="center" flexWrap="wrap">
         {allContributions.map(contribution => (
-          <ContributionCard key={contribution.id} {...contribution} />
+          <ContributionCard
+            key={contribution.id}
+            {...contribution}
+            clickable
+            onClick={contributionCardClickHandler(contribution.id)}
+          />
         ))}
       </Flex>
     </>

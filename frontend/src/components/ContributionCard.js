@@ -7,6 +7,7 @@ import {
   Image,
   Text
 } from "rebass/styled-components";
+import { Emoji } from "components/Emoji";
 
 import CoffeeToGo from "assets/coffee_to_go.png";
 
@@ -14,7 +15,10 @@ export function ContributionCard({
   id,
   message,
   qty,
+  seen,
   user: { name },
+  onClick = () => {},
+  clickable = false,
   testId = "contribution-card"
 }) {
   return (
@@ -27,7 +31,12 @@ export function ContributionCard({
       width="90%"
       maxWidth="575px"
       borderRadius={8}
-      sx={{ width: [320, 375, 425, 600], borderRadius: 8 }}
+      sx={{
+        width: [320, 375, 425, 600],
+        borderRadius: 8,
+        cursor: clickable ? "pointer" : "default"
+      }}
+      onClick={onClick}
       data-testid={testId}
     >
       <Flex justifyContent="space-around">
@@ -37,6 +46,14 @@ export function ContributionCard({
           </Flex>
           <Text fontSize={3} as="p" style={{ wordBreak: "break-word" }}>
             {message}
+          </Text>
+          <Text fontSize={2} as="p">
+            seen:
+            {seen ? (
+              <Emoji label="yes" symbol={"☑️"} />
+            ) : (
+              <Emoji label="no" symbol={"◻️"} />
+            )}
           </Text>
         </Flex>
 
